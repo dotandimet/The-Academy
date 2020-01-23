@@ -1,0 +1,21 @@
+{
+  "name": "the-academy",
+  "version": "1.0.0",
+  "description": "site to support our roleplaying game",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "serve"
+  },
+  "author": "dotandimet@gmail.com",
+  "license": "Artistic-2.0",
+  "dependencies": {
+    "@fortawesome/fontawesome-free": "^5.12.0",
+    "bulma": "^0.8.0"
+  },
+  "devDependencies": {
+    "@rollup/plugin-node-resolve": "^7.0.0",
+    "rollup": "^1.29.1",
+    "serve": "^11.3.0"
+  }
+}

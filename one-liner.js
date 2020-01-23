@@ -1,0 +1,1 @@
+npcs = $$('.c0, img').reduce( (a, e) => { let tail = a[a.length-1]; if (e.hasAttribute('src')) { let img = e.getAttribute('src'); if (tail.image) { a.push({'image': img, 'name': '' }) } else { tail.image = img } } else { tail.name = tail.name.trim() + ' ' + e.textContent.trim() }; return a; }, [{ 'image': false, 'name': '' }])
