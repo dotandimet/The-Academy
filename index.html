@@ -21,22 +21,78 @@
                 My first website with <strong>Bulma</strong>!
             </p>
             <ul>
-                <li is-3 is-primary>Soma<i class="fas fa-child"></i></li>
-                <li is-3 is-primary>Soma: Quicks<i class="fas fa-running"></i></li>
-                <li is-3 is-primary>Soma: Freaks<i class="fas fa-biohazard"></i></li>
-                <li is-3 is-primary>Mekhane<i class="fas fa-cog"></i></li>
-                <li is-3 is-primary>Mekhane: Gremlins<i class="fas fa-wrench"></i></li>
-                <li is-3 is-primary>Mekhane: Ghosts<i class="fas fa-ghost"></i></li>
-                <li is-3 is-primary>Psyche<i class="fas fa-brain"></i></li>
-                <li is-3 is-primary>Psyche: ESPers<i class="fas fa-heart-broken"></i></li>
-                <li is-3 is-primary>Psyche: Dominators<i class="fas fa-hand-holding-heart"></i></li>
-                <li is-3 is-primary>Energia<i class="fas fa-fire"></i></li>
-                <li is-3 is-primary>Daimon<i class="fas fa-hat-wizard"></i></li>
-                <li is-3 is-primary>Daimon: Oracles<i class="fas fa-crow"></i></li>
-                <li is-3 is-primary>Daimon: Demonologists<i class="fas fa-cat"></i></li>
+                <li>Soma<i class="fas fa-child"></i></li>
+                <li>Soma: Quicks<i class="fas fa-running"></i></li>
+                <li>Soma: Freaks<i class="fas fa-biohazard"></i></li>
+                <li>Mekhane<i class="fas fa-cog"></i></li>
+                <li>Mekhane: Gremlins<i class="fas fa-wrench"></i></li>
+                <li>Mekhane: Ghosts<i class="fas fa-ghost"></i></li>
+                <li>Psyche<i class="fas fa-brain"></i></li>
+                <li>Psyche: ESPers<i class="fas fa-heart-broken"></i></li>
+                <li>Psyche: Dominators<i class="fas fa-hand-holding-heart"></i></li>
+                <li>Energia<i class="fas fa-fire"></i></li>
+                <li>Daimon<i class="fas fa-hat-wizard"></i></li>
+                <li>Daimon: Oracles<i class="fas fa-crow"></i></li>
+                <li>Daimon: Demonologists<i class="fas fa-cat"></i></li>
+                <li>Queens<span class="fa-stack fa-2x">
+                  <i class="fas fa-heart fa-stack-2x"></i>
+                  <i class="fas fa-crown fa-inverse fa-stack-1x"></i></span></li>
         </div>
     </section>
     </ul>
+<script>
+const division_icons = {
+  "Soma": "fa-child",
+  "Soma: Quicks": "fa-running",
+  "Soma: Freaks": "fa-biohazard",
+  "Mekhane": "fa-cog",
+  "Mekhane: Gremlins": "fa-wrench",
+  "Mekhane: Ghosts": "fa-ghost",
+  "Psyche": "fa-brain",
+  "Psyche: ESPers": "fa-heart-broken",
+  "Psyche: Dominators": "fa-hand-holding-heart",
+  "Energia": "fa-fire",
+  "Daimon": "fa-hat-wizard",
+  "Daimon: Oracles": "fa-crow",
+  "Daimon: Demonologists": "fa-cat"
+};
+
+grades = ['amber', 'red', 'black'];
+
+const box=`
+<div class="box">
+  <article class="media">
+    <div class="media-left">
+      <figure class="image is-64x64">
+        <img src="${ my.img }" alt="Image">
+      </figure>
+    </div>
+    <div class="media-content">
+      <div class="content">
+        ${ my.content }
+              </div>
+      <nav class="level is-mobile">
+        <div class="level-left">
+          <a class="level-item">
+            <span class="icon is-small" style="color: ${ my.grade };">
+              <i class="fas fa-exclamation-triangle"></i>
+            </span>
+          </a>
+          <a class="level-item">
+            <span class="icon is-small">
+              <i class="fas ${ my.division }"></i>
+            </span>
+          </a>
+        </div>
+      </nav>
+    </div>
+  </article>
+</div>
+`
+
+
+
+</script>
 </body>
 
 
