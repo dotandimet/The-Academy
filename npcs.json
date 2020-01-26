@@ -2,10 +2,16 @@
     {
         "image": "images/image17.png",
         "name": "Natasha Kievski, Ukrainian immigrant from Denver, WoW gamer, smells emotions "
+        , "division": "Psyche",
+        "type": "Dominator",
+        "grade": "amber"
     },
     {
         "image": "images/image32.png",
         "name": " Danny Pinkman, NY Dance student, hyper reflexes"
+        , "division": "Soma",
+        "type": "Quick",
+        "grade": "amber"
     },
     {
         "image": "images/image36.png",
@@ -42,117 +48,106 @@
     {
         "image": "images/image5.png",
         "name": "Eddy Park, was hurt on an away mission, Korean. Mekhane "
+        , "division": "Mekhane",
+        "type": "Gremlin",
+        "grade": "amber"
     },
     {
         "image": "images/image22.png",
         "name": "Aubrey Foster, the super-sniffing sleuth "
+        , "division": "Soma",
+        "type": "Freak",
+        "grade": "amber"
     },
     {
         "image": "images/image30.png",
         "name": "Jennifer (charm). Short chubby blonde "
+        , "division": "Psyche",
+        "type": "Dominator",
+        "grade": "amber"
     },
     {
         "image": "images/image15.jpg",
         "name": "Sam, tough chick, Soma "
+        , "division": "Soma",
+        "type": "Quick",
+        "grade": "amber"
     },
     {
         "image": "images/image37.jpg",
         "name": "Jerome Hanson, Tall guy, the human joybuZzer. party was at his place. "
+        , "division": "Mekhane",
+        "type": "Gremlin",
+        "grade": "amber"
     },
     {
         "image": "images/image27.jpg",
         "name": "Odin Dawson, friendly demonology student "
+        , "division": "Daimon",
+        "type": "Channeler",
+        "grade": "amber"
     },
     {
         "image": "images/image9.png",
         "name": "Ivy Richmond, Telepath. helped Natasha access her memories "
+        , "division": "Psyche",
+        "type": "ESPer",
+        "grade": "amber"
     },
     {
         "image": "images/image2.jpg",
         "name": "Scot Patel, The Shulgin secretes drugs "
+        , "division": "Soma",
+        "type": "Freak",
+        "grade": "amber"
     },
     {
         "image": "images/image7.png",
         "name": "Mina Black The Tooth Fairy The Shulgin’s Girl"
+        , "division": "Soma",
+        "type": "Freak",
+        "grade": "amber"
     },
     {
         "image": "images/image28.jpg",
         "name": "Liam Combs, Dominator Left the party early "
+        , "division": "Psyche",
+        "type": "Dominator",
+        "grade": "amber"
     },
     {
         "image": "images/image19.png",
         "name": "Isiah Colon, Technomage "
+        , "division": "Mekhane",
+        "type": "Ghost",
+        "grade": "amber"
     },
     {
         "image": "images/image10.png",
         "name": "Vienna Glenn, a Soma Quick, Dirty Rumors "
+        , "division": "Soma",
+        "type": "Quick",
+        "grade": "amber"
     },
     {
         "image": "images/image24.png",
         "name": "Maverick Randolph Senior, Soma freak with pheromones Involved in dirty rumors "
+        , "division": "Soma",
+        "type": "Freak",
+        "grade": "amber"
     },
     {
         "image": "images/image4.png",
         "name": "Darren Wall aka The Wall Dan’s sparring partner "
+        , "division": "Soma",
+        "type": "Quick",
+        "grade": "amber"
     },
     {
         "image": "images/image16.png",
         "name": "Layla Lloyd Psyche student Nat’s sparring partner"
-    },
-    {
-        "image": "images/image6.png",
-        "name": "Most of the people on it actually look like kids. What Power Are You?"
-    },
-    {
-        "image": "images/image31.png",
-        "name": " Hyperhuman abilities, abnormal biological enhancments"
-    },
-    {
-        "image": "images/image38.png",
-        "name": " Reflexes, strength, toughness, speed"
-    },
-    {
-        "image": "images/image26.png",
-        "name": "Enhanced senses, alternative biochemistry, other weirdness "
-    },
-    {
-        "image": "images/image29.png",
-        "name": " Paranormal senses and mental manipulation"
-    },
-    {
-        "image": "images/image12.png",
-        "name": " Extra-sensory perception, mind-reading, etc."
-    },
-    {
-        "image": "images/image33.png",
-        "name": " Psychic Control"
-    },
-    {
-        "image": "images/image11.png",
-        "name": " Supernormal energy manifestation"
-    },
-    {
-        "image": "images/image13.png",
-        "name": " Supernormal manipulation of machinery and electronics"
-    },
-    {
-        "image": "images/image1.png",
-        "name": " Supernormal fucking with machines"
-    },
-    {
-        "image": "images/image23.png",
-        "name": " Hacking without modems"
-    },
-    {
-        "image": "images/image39.png",
-        "name": " Communication with Supernatural Intelligences"
-    },
-    {
-        "image": "images/image8.png",
-        "name": " Access Supernatural knowledge"
-    },
-    {
-        "image": "images/image18.png",
-        "name": " Invoke Supernatural effects"
+        , "division": "Psyche",
+        "type": "ESPer",
+        "grade": "amber"
     }
-]
+    ]

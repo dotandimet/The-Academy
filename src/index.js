@@ -1,26 +1,30 @@
     const division_icons = {
         "Soma": "fa-child",
-        "Soma: Quicks": "fa-running",
-        "Soma: Freaks": "fa-biohazard",
+        "Quick": "fa-running",
+        "Freak": "fa-biohazard",
         "Mekhane": "fa-cog",
-        "Mekhane: Gremlins": "fa-wrench",
-        "Mekhane: Ghosts": "fa-ghost",
+        "Gremlin": "fa-wrench",
+        "Ghost": "fa-ghost",
         "Psyche": "fa-brain",
-        "Psyche: ESPers": "fa-heart-broken",
-        "Psyche: Dominators": "fa-hand-holding-heart",
-        "Energia": "fa-fire",
+        "ESPer": "fa-heart-broken",
+        "Dominator": "fa-hand-holding-heart",
+        "Energia": "fa-sun",
+        "Torch": "fa-fire",
+        "Bolt": "fa-bolt",
+        "Mover": "fa-meteor",
         "Daimon": "fa-hat-wizard",
-        "Daimon: Oracles": "fa-crow",
-        "Daimon: Demonologists": "fa-cat"
+        "Oracle": "fa-crow",
+        "Channeler": "fa-cat"
     };
 
-    grades = ['amber', 'red', 'black'];
+    grades = { 'amber': '#cc9933', 'bronze': '#999933', 'red': 'red', 'black': 'black' };
 
     const box = (my) => {
-        my.grade = (my.grade) ? my.grade : 'red';
+        my.grade = (my.grade) ? grades[my.grade] : grades['red'];
         my.division = (my.division) ? my.division : 'Soma';
+        my.type = (my.type) ? my.type : 'Freak';
         return `
-<div class="box">
+<div class="box tile is-child">
   <article class="media">
     <div class="media-left">
       <figure class="image is-64x64">
@@ -41,6 +45,11 @@
           <a class="level-item">
             <span class="icon is-small">
               <i class="fas ${ division_icons[my.division]}"></i>
+            </span>
+          </a>
+          <a class="level-item">
+            <span class="icon is-small">
+              <i class="fas ${ division_icons[my.type]}"></i>
             </span>
           </a>
         </div>
