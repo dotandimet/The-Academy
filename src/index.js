@@ -1,3 +1,9 @@
+import { h, Component, render } from 'https://unpkg.com/preact@10.2.1/dist/preact.module.js'; // 'https://unpkg.com/preact?module';
+import htm from 'https://unpkg.com/htm?module';
+
+// Initialize htm with Preact
+const html = htm.bind(h);
+
     const division_icons = {
         "Soma": "fa-child",
         "Quick": "fa-running",
@@ -17,14 +23,13 @@
         "Channeler": "fa-cat"
     };
 
-    grades = { 'amber': '#cc9933', 'bronze': '#999933', 'red': 'red', 'black': 'black' };
+    const grades = { 'amber': '#cc9933', 'bronze': '#999933', 'red': 'red', 'black': 'black' };
 
     const box = (my) => {
         my.grade = (my.grade) ? grades[my.grade] : grades['red'];
         my.division = (my.division) ? my.division : 'Soma';
         my.type = (my.type) ? my.type : 'Freak';
-        return `
-<div class="box tile is-child">
+        return html`<div class="box">
   <article class="media">
     <div class="media-left">
       <figure class="image is-64x64">
@@ -62,8 +67,6 @@
 
     fetch('npcs.json').then((res) => res.json())
         .then((npcs) => {
-            let div = document.getElementById('npcs');
-            for (let npc of npcs) {
-                div.innerHTML += box(npc);
-            }
+            let npc_div = document.getElementById('npcs');
+            render(npcs.map(npc => box(npc)), npc_div)
         });
