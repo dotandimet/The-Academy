@@ -4,7 +4,7 @@ import htm from 'https://unpkg.com/htm?module';
 // Initialize htm with Preact
 const html = htm.bind(h);
 
-    const division_icons = {
+const division_icons = {
         "Soma": "fa-child",
         "Quick": "fa-running",
         "Freak": "fa-biohazard",
@@ -23,38 +23,38 @@ const html = htm.bind(h);
         "Channeler": "fa-cat"
     };
 
-    const grades = { 'amber': '#cc9933', 'bronze': '#999933', 'red': 'red', 'black': 'black' };
+const grades = { 'amber': '#cc9933', 'bronze': '#999933', 'red': 'red', 'black': 'black' };
 
-    const box = (my) => {
-        my.grade = (my.grade) ? grades[my.grade] : grades['red'];
-        my.division = (my.division) ? my.division : 'Soma';
-        my.type = (my.type) ? my.type : 'Freak';
-        return html`<div class="box">
+    class Box extends Component {
+      state = { show: true };
+      render({ name='Bob', grade='red', division='Soma', type='Freak', image } ) {
+        return html`
+<div class="box">
   <article class="media">
     <div class="media-left">
-      <figure class="image is-64x64">
-        <img src="${ my.image}" alt="Image">
+      <figure class="image is-128x128" style="overflow: hidden">
+        <img src="${ image}" alt="Image" class="is-rounded" />
       </figure>
     </div>
     <div class="media-content">
       <div class="content">
-        ${ my.name}
-              </div>
+        ${ name}
+      </div>
       <nav class="level is-mobile">
         <div class="level-left">
           <a class="level-item">
-            <span class="icon is-small" style="color: ${ my.grade};">
+            <span class="icon is-small" style="color: ${ grades[grade] };">
               <i class="fas fa-exclamation-triangle"></i>
             </span>
           </a>
           <a class="level-item">
             <span class="icon is-small">
-              <i class="fas ${ division_icons[my.division]}"></i>
+              <i class="fas ${ division_icons[division]}"></i>
             </span>
           </a>
           <a class="level-item">
             <span class="icon is-small">
-              <i class="fas ${ division_icons[my.type]}"></i>
+              <i class="fas ${ division_icons[type]}"></i>
             </span>
           </a>
         </div>
@@ -62,11 +62,25 @@ const html = htm.bind(h);
     </div>
   </article>
 </div>
-`
+` }
     };
 
-    fetch('npcs.json').then((res) => res.json())
-        .then((npcs) => {
-            let npc_div = document.getElementById('npcs');
-            render(npcs.map(npc => box(npc)), npc_div)
-        });
+  class NPCList extends Component {
+    state = { npcs: [] };
+    
+    componentDidMount() {
+      this.loadData()    
+    }
+
+    loadData() {
+      const url = (this.props.src) ? this.props.src : 'npcs.json';
+      fetch(url).then((res) => res.json())
+                        .then((npcs) => this.setState({ npcs }))
+    }
+    render(props, state) {
+      return this.state.npcs.map( npc => html`<${Box} ...${npc} />` )
+    }
+  }
+  
+  const app = html`<${NPCList} />`
+  render(app, document.getElementById('npcs'));
