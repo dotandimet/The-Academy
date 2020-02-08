@@ -5,7 +5,9 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "serve"
+    "dev": "serve",
+    "lint": "eslint --fix 'src/**/*.js'",
+    "format": "prettier --write 'src/**/*.js'"
   },
   "author": "dotandimet@gmail.com",
   "license": "Artistic-2.0",
@@ -17,6 +19,7 @@
   "devDependencies": {
     "@rollup/plugin-node-resolve": "^7.0.0",
     "eslint": "^6.8.0",
+    "prettier": "1.19.1",
     "rollup": "^1.29.1",
     "serve": "^11.3.0"
   }

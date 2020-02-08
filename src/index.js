@@ -1,38 +1,9 @@
 import {
-  h,
-  Component,
-  render
-} from "https://unpkg.com/preact@10.2.1/dist/preact.module.js"; // 'https://unpkg.com/preact?module';
-import htm from "https://unpkg.com/htm?module";
+  Component, render, html, h,
+  division_icons, divisions, division_types, grades
+} from './defs.js';
 
-// Initialize htm with Preact
-const html = htm.bind(h);
-
-const division_icons = {
-  Soma: "fa-child",
-  Quick: "fa-running",
-  Freak: "fa-biohazard",
-  Mekhane: "fa-cog",
-  Gremlin: "fa-wrench",
-  Ghost: "fa-ghost",
-  Psyche: "fa-brain",
-  ESPer: "fa-heart-broken",
-  Dominator: "fa-hand-holding-heart",
-  Energia: "fa-sun",
-  Torch: "fa-fire",
-  Bolt: "fa-bolt",
-  Mover: "fa-meteor",
-  Daimon: "fa-hat-wizard",
-  Oracle: "fa-crow",
-  Channeler: "fa-cat"
-};
-
-const grades = {
-  amber: "#cc9933",
-  bronze: "#999933",
-  red: "red",
-  black: "black"
-};
+import { EditForm } from "./editor.js";
 
 class Mark extends Component {
   render({ icon, color, action, title }) {
@@ -56,8 +27,11 @@ class Box extends Component {
     grade = "red",
     division = "Soma",
     type = "Freak",
+    bio = '',
+    powers = '',
     image,
-    filterAction
+    filterAction,
+    editCharacter
   }) {
     return html`
       <div class="box animated fadeInDown" key=${name}>
@@ -69,7 +43,9 @@ class Box extends Component {
           </div>
           <div class="media-content">
             <div class="content">
-              ${name}
+              <h2 class="title">${name}</h2>
+              <p class="subtitle">${powers}</p>
+              <p>${bio}</p>
             </div>
             <nav class="level is-mobile">
               <div class="level-left">
@@ -104,11 +80,11 @@ class Box extends Component {
 }
 
 class NPCList extends Component {
-  render({ npcs, filterAction }, state) {
+  render({ npcs, filterAction, ...props }, state) {
     return npcs.map(
       npc =>
         html`
-          <${Box} ...${npc}, filterAction=${filterAction} />
+          <${Box} ...${npc}, filterAction=${filterAction} ...${props} />
         `
     );
   }
@@ -123,7 +99,7 @@ class InfoPanel extends Component {
 }
 
 class App extends Component {
-  state = { npcs: [], filter: false };
+  state = { npcs: [], filter: false, editing: false };
 
   componentDidMount() {
     this.loadData();
@@ -143,13 +119,35 @@ class App extends Component {
       .then(res => res.json())
       .then(npcs => this.setState({ npcs }));
   }
+
+  editCharacter(name) {
+    const editAtIndex = this.state.npcs.findIndex(npc => npc.name === name);
+    const editThis = this.state.npcs[editAtIndex];
+    this.setState({ editing: editThis, editIndex: editAtIndex });
+  }
+
+  commitEdit(e) {
+    const edit = { [e.target.name]: e.target.value };
+    console.log(edit)
+    let edited = { ...this.state.editing, ...edit };
+    const idx = this.state.editIndex
+    const new_list = this.state.npcs.map(x=>x)  //copy the array
+    new_list.splice(idx, 1, edited)
+    this.setState({ npcs: new_list, editing: edited })
+  }
+
   render(props, { npcs, ...state }) {
-    console.log("In App - npcs=" + npcs);
     const filterAction = (term, value) => this.setFilter(term, value);
     return html`
       <div class="columns">
         <div class="column">
-          <${NPCList} npcs=${npcs} filterAction=${filterAction} />
+          <${NPCList}
+            npcs=${npcs}
+            filterAction=${filterAction}
+            editCharacter=${name => {
+              this.editCharacter(name);
+            }}
+          />
         </div>
         <div class="column">
           ${state.filter &&
@@ -165,6 +163,13 @@ class App extends Component {
                     npc[state.filter.term] === state.filter.value
                 )}
               />
+            `}
+        </div>
+        <div class="column">
+          ${state.editing &&
+            html`
+              <h2>Editing</h2>
+              <${EditForm} ...${state.editing} updateAction=${(e)=>this.commitEdit(e)} />
             `}
         </div>
       </div>
