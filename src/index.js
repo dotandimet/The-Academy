@@ -1,7 +1,13 @@
 import {
-  Component, render, html, h,
-  division_icons, divisions, division_types, grades
-} from './defs.js';
+  Component,
+  render,
+  html,
+  h,
+  division_icons,
+  divisions,
+  division_types,
+  grades
+} from "./defs.js";
 
 import { EditForm } from "./editor.js";
 
@@ -27,8 +33,8 @@ class Box extends Component {
     grade = "red",
     division = "Soma",
     type = "Freak",
-    bio = '',
-    powers = '',
+    bio = "",
+    powers = "",
     image,
     filterAction,
     editCharacter
@@ -128,12 +134,12 @@ class App extends Component {
 
   commitEdit(e) {
     const edit = { [e.target.name]: e.target.value };
-    console.log(edit)
+    console.log(edit);
     let edited = { ...this.state.editing, ...edit };
-    const idx = this.state.editIndex
-    const new_list = this.state.npcs.map(x=>x)  //copy the array
-    new_list.splice(idx, 1, edited)
-    this.setState({ npcs: new_list, editing: edited })
+    const idx = this.state.editIndex;
+    const new_list = this.state.npcs.map(x => x); //copy the array
+    new_list.splice(idx, 1, edited);
+    this.setState({ npcs: new_list, editing: edited });
   }
 
   render(props, { npcs, ...state }) {
@@ -169,7 +175,10 @@ class App extends Component {
           ${state.editing &&
             html`
               <h2>Editing</h2>
-              <${EditForm} ...${state.editing} updateAction=${(e)=>this.commitEdit(e)} />
+              <${EditForm}
+                ...${state.editing}
+                updateAction=${e => this.commitEdit(e)}
+              />
             `}
         </div>
       </div>

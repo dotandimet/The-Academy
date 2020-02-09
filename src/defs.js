@@ -43,6 +43,12 @@ const grades = {
 };
 
 export {
-  Component, render, h, html,
-  division_icons, divisions, division_types, grades
+  Component,
+  render,
+  h,
+  html,
+  division_icons,
+  divisions,
+  division_types,
+  grades
 };

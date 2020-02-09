@@ -1,7 +1,12 @@
 import {
-  Component, render, html,
-  division_icons, divisions, division_types, grades
-} from './defs.js';
+  Component,
+  render,
+  html,
+  division_icons,
+  divisions,
+  division_types,
+  grades
+} from "./defs.js";
 
 class EditField extends Component {
   render({ label, name, value, big, ...props }) {
@@ -11,7 +16,9 @@ class EditField extends Component {
         <div class="control">
           ${big &&
             html`
-              <textarea class="textarea" name=${name} ...${props}>${value}</textarea>
+              <textarea class="textarea" name=${name} ...${props}>
+${value}</textarea
+              >
             `}
           ${big ||
             html`
@@ -32,12 +39,22 @@ class EditField extends Component {
 
 export class EditForm extends Component {
   render({ name, bio, powers, grade, division, type, image, updateAction }) {
-    bio = (bio) ? bio : name;
-    powers = (powers) ? powers : name;
+    bio = bio ? bio : name;
+    powers = powers ? powers : name;
     return html`
       <form>
-        <${EditField} label="Name" value=${name} name="name" onInput=${updateAction} />
-        <${EditField} label="Powers" value=${powers} name="powers" onInput=${updateAction} />
+        <${EditField}
+          label="Name"
+          value=${name}
+          name="name"
+          onInput=${updateAction}
+        />
+        <${EditField}
+          label="Powers"
+          value=${powers}
+          name="powers"
+          onInput=${updateAction}
+        />
         <${EditField}
           big="true"
           label="Bio"
