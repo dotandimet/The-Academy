@@ -49,8 +49,8 @@ class Box extends Component {
           </div>
           <div class="media-content">
             <div class="content">
-              <h2 class="title">${name}</h2>
-              <p class="subtitle">${powers}</p>
+              <h2 class="title is-4">${name}</h2>
+              <p class="subtitle is-6 is-capitalized">${powers}</p>
               <p>${bio}</p>
             </div>
             <nav class="level is-mobile">
@@ -147,6 +147,8 @@ class App extends Component {
     return html`
       <div class="columns">
         <div class="column">
+          <h2 class="title is-capitalized">Cast</h2>
+          <div class="mypanel">
           <${NPCList}
             npcs=${npcs}
             filterAction=${filterAction}
@@ -155,12 +157,14 @@ class App extends Component {
             }}
           />
         </div>
+        </div>
         <div class="column">
           ${state.filter &&
             html`
               <h2 class="title is-capitalized">
                 ${state.filter.term}: ${state.filter.value}
               </h2>
+              <div class="mypanel">
               <${NPCList}
                 filterAction=${filterAction}
                 npcs=${npcs.filter(
@@ -169,16 +173,19 @@ class App extends Component {
                     npc[state.filter.term] === state.filter.value
                 )}
               />
+              </div>
             `}
         </div>
         <div class="column">
           ${state.editing &&
             html`
               <h2>Editing</h2>
+              <div class="mypanel">
               <${EditForm}
                 ...${state.editing}
                 updateAction=${e => this.commitEdit(e)}
               />
+              </div>
             `}
         </div>
       </div>
