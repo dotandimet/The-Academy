@@ -14,13 +14,11 @@ class EditField extends Component {
       <div class="field">
         <label class="label">${label}</label>
         <div class="control">
-          ${big &&
+          ${(big) ?
             html`
               <textarea class="textarea" name=${name} ...${props}>
-${value}</textarea
-              >
-            `}
-          ${big ||
+${value}</textarea>
+            ` : 
             html`
               <input
                 class="input"
