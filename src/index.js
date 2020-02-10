@@ -27,18 +27,22 @@ class Mark extends Component {
 }
 
 class Box extends Component {
-  state = { show: true };
   render({
-    name = "Bob",
-    grade = "red",
-    division = "Soma",
-    type = "Freak",
-    bio = "",
-    powers = "",
+    name,
+    grade,
+    division,
+    type,
+    bio,
+    powers,
     image,
     filterAction,
     editCharacter
   }) {
+    (name) || (name = 'bob');
+    (grade) || (grade = 'red');
+    (division) || (division = 'Soma');
+    (type) || (type = 'Freak');
+    
     return html`
       <div class="box animated fadeInDown" key=${name}>
         <article class="media">
@@ -105,7 +109,10 @@ class InfoPanel extends Component {
 }
 
 class App extends Component {
-  state = { npcs: [], filter: false, editing: false };
+  constructor() {
+  super();
+  this.state = { npcs: [], filter: false, editing: false };
+  }
 
   componentDidMount() {
     this.loadData();
@@ -145,6 +152,13 @@ class App extends Component {
   render(props, { npcs, ...state }) {
     const filterAction = (term, value) => this.setFilter(term, value);
     return html`
+      <div class="level">
+      <div class="level-left">
+      <div class="level-item">
+      <a onclick=${signOn}>sign on</a>
+      </div>
+      </div>
+      </div>
       <div class="columns">
         <div class="column">
           <h2 class="title is-capitalized">Cast</h2>
@@ -193,3 +207,35 @@ class App extends Component {
   }
 }
 render(h(App), document.getElementById("app"));
+
+function signOn() {
+var provider = new firebase.auth.GoogleAuthProvider();
+firebase.auth().signInWithRedirect(provider);
+};
+
+function initApp() {
+firebase.auth().getRedirectResult().then(function(result) {
+  if (result.credential) {
+  // This gives you a Google Access Token. You can use it to access the Google API.
+  var token = result.credential.accessToken;
+  }
+  // The signed-in user info.
+  var user = result.user;
+  console.log('user: ');
+  console.dir(user);
+  console.log('token: ' + token);
+  // ...
+}).catch(function(error) {
+  // Handle Errors here.
+  var errorCode = error.code;
+  var errorMessage = error.message;
+  // The email of the user's account used.
+  var email = error.email;
+  // The firebase.auth.AuthCredential type that was used.
+  var credential = error.credential;
+  // ...
+  console.log('code: ' + errorCode + ' message:' + errorMessage);
+});
+};
+
+initApp();
