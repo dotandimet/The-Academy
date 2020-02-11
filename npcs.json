@@ -1,165 +1,230 @@
 [
   {
-   "image":"images/image18.png",
-   "name":"Natasha Kievski",
-   "powers":"smells emotions and manipulates them",
-   "bio":"Ukrainian immigrant from Denver and WoW gamer"
+    "image": "images/image18.png",
+    "name": "Natasha Kievski",
+    "powers": "smells emotions and manipulates them",
+    "bio": "Ukrainian immigrant from Denver and WoW gamer",
+    "division": "Psyche",
+    "type": "Dominator",
+    "grade": "amber"
   },
   {
-   "image":"images/image34.png",
-   "name":"Danny Pinkman",
-   "powers":"hyper reflexes",
-   "bio":"NY Dance student"
+    "image": "images/image34.png",
+    "name": "Danny Pinkman",
+    "powers": "hyper reflexes",
+    "bio": "NY Dance student",
+    "type": "Quick",
+    "grade": "amber"
   },
   {
-   "image":"images/image30.png",
-   "name":"Jack Chang",
-   "powers":"Demon Channeler",
-   "bio":"Tibetan orphan and Soccer nut Teachers and Staff"
+    "image": "images/image30.png",
+    "name": "Jack Chang",
+    "powers": "Demon Channeler",
+    "bio": "Tibetan orphan and Soccer nut Teachers and Staff",
+    "division": "Daimon",
+    "type": "Channeler",
+    "grade": "amber"
   },
   {
-   "image":"images/image38.png",
-   "name":"Henry Herman",
-   "powers":"Immortal",
-   "bio":"Headmaster"
+    "image": "images/image38.png",
+    "name": "Henry Herman",
+    "powers": "Immortal",
+    "bio": "Headmaster",
+    "grade": "gold"
   },
   {
-   "image":"images/image36.png",
-   "name":"Michelle O\"Shea",
-   "powers":"Oracle",
-   "bio":"Dean of students"
+    "image": "images/image36.png",
+    "name": "Michelle O\"Shea",
+    "powers": "Oracle",
+    "bio": "Dean of students",
+    "division": "Daimon",
+    "type": "Oracle",
+    "grade": "gold"
   },
   {
-   "image":"images/image26.png",
-   "name":"Johnny Cherub",
-   "powers":"Spooky",
-   "bio":"Phys. Ed. Teacher"
+    "image": "images/image26.png",
+    "name": "Johnny Cherub",
+    "powers": "Spooky",
+    "bio": "Phys. Ed. Teacher",
+    "division": "Psyche",
+    "type": "ESPer",
+    "grade": "silver"
   },
   {
-   "image":"images/image21.png",
-   "name":"Jimmy the Cook",
-   "powers":"Wolverine",
-   "bio":"Long and twisted."
+    "image": "images/image21.png",
+    "name": "Jimmy the Cook",
+    "powers": "Wolverine",
+    "bio": "Long and twisted.",
+    "type": "Quick",
+    "grade": "silver"
   },
   {
-   "image":"images/image37.png",
-   "name":"Meera Gavankar",
-   "powers":"Nurse"
+    "image": "images/image37.png",
+    "name": "Meera Gavankar",
+    "powers": "Nurse",
+    "grade": "amber"
   },
   {
-   "image":"images/image14.png",
-   "name":"Drew Perkins",
-   "powers":"Demonologist",
-   "bio":"Former Firefighter and Equipment expert"
+    "image": "images/image14.png",
+    "name": "Drew Perkins",
+    "powers": "Demonologist",
+    "bio": "Former Firefighter and Equipment expert",
+    "division": "Daimon",
+    "type": "Channeler",
+    "grade": "silver"
   },
   {
-   "image":"images/image22.png",
-   "name":"Charlene Kane",
-   "powers":"Nurse"
+    "image": "images/image22.png",
+    "name": "Charlene Kane",
+    "powers": "Nurse",
+    "grade": "amber"
   },
   {
-   "image":"images/image3.png",
-   "name":"Celia Palmer",
-   "powers":"head of Mekhane"
+    "image": "images/image3.png",
+    "name": "Celia Palmer",
+    "powers": "head of Mekhane",
+    "division": "Mekhane",
+    "type": "Ghost",
+    "grade": "silver"
   },
   {
-   "image":"images/image16.png",
-   "name":"Doctor Karen Wright",
-   "powers":"Telekinetic",
-   "bio":"head of Energia Students"
+    "image": "images/image16.png",
+    "name": "Doctor Karen Wright",
+    "powers": "Telekinetic",
+    "bio": "head of Energia Students",
+    "division": "Energia",
+    "type": "Mover",
+    "grade": "silver"
   },
   {
-   "image":"images/image5.png",
-   "name":"Eddy Park",
-   "powers":"Mekhane",
-   "bio":"Korean student hurt on an away mission"
+    "image": "images/image5.png",
+    "name": "Eddy Park",
+    "powers": "Mekhane",
+    "bio": "Korean student hurt on an away mission",
+    "division": "Mekhane",
+    "type": "Gremlin",
+    "grade": "red"
   },
   {
-   "image":"images/image23.png",
-   "name":"Aubrey Foster",
-   "powers":"super-sniffing sleuth",
-   "bio":"can’t eat this."
+    "image": "images/image23.png",
+    "name": "Aubrey Foster",
+    "powers": "super-sniffing sleuth",
+    "bio": "can’t eat this.",
+    "grade": "amber"
   },
   {
-   "image":"images/image32.png",
-   "name":"Jennifer",
-   "powers":"charm",
-   "bio":"14 year old short chubby blonde"
+    "image": "images/image32.png",
+    "name": "Jennifer",
+    "powers": "charm",
+    "bio": "14 year old short chubby blonde",
+    "division": "Psyche",
+    "type": "Dominator",
+    "grade": "amber"
   },
   {
-   "image":"images/image15.jpg",
-   "name":"Sam",
-   "powers":"tough chick",
-   "bio":"Soma"
+    "image": "images/image15.jpg",
+    "name": "Sam",
+    "powers": "tough chick",
+    "bio": "Soma",
+    "type": "Quick",
+    "grade": "amber"
   },
   {
-   "image":"images/image39.jpg",
-   "name":"Jerome Hanson",
-   "powers":"Tall guy",
-   "bio":"the human joybuZzer. party was at his place."
+    "image": "images/image39.jpg",
+    "name": "Jerome Hanson",
+    "powers": "Tall guy",
+    "bio": "the human joybuZzer. party was at his place.",
+    "division": "Mekhane",
+    "type": "Gremlin",
+    "grade": "amber"
   },
   {
-   "image":"images/image28.jpg",
-   "name":"Odin Dawson",
-   "powers":"friendly demonology student"
+    "image": "images/image28.jpg",
+    "name": "Odin Dawson",
+    "powers": "friendly demonology student",
+    "division": "Daimon",
+    "type": "Channeler",
+    "grade": "amber"
   },
   {
-   "image":"images/image9.png",
-   "name":"Ivy Richmond",
-   "powers":"Telepath",
-   "bio":"helped Natasha access her memories"
+    "image": "images/image9.png",
+    "name": "Ivy Richmond",
+    "powers": "Telepath",
+    "bio": "helped Natasha access her memories",
+    "division": "Psyche",
+    "type": "ESPer",
+    "grade": "amber"
   },
   {
-   "image":"images/image2.jpg",
-   "name":"Scot Patel",
-   "powers":"secretes drugs",
-   "bio":"The Shulgin"
+    "image": "images/image2.jpg",
+    "name": "Scot Patel",
+    "powers": "secretes drugs",
+    "bio": "The Shulgin",
+    "grade": "red"
   },
   {
-   "image":"images/image7.png",
-   "name":"Mina Black",
-   "powers":"The Tooth Fairy",
-   "bio":"The Shulgin’s operator"
+    "image": "images/image7.png",
+    "name": "Mina Black",
+    "powers": "The Tooth Fairy",
+    "bio": "The Shulgin’s operator",
+    "grade": "amber"
   },
   {
-   "image":"images/image29.jpg",
-   "name":"Liam Combs",
-   "powers":"Dominator",
-   "bio":"Left the party early"
+    "image": "images/image29.jpg",
+    "name": "Liam Combs",
+    "powers": "Dominator",
+    "bio": "Left the party early",
+    "division": "Psyche",
+    "type": "Dominator",
+    "grade": "amber"
   },
   {
-   "image":"images/image20.png",
-   "name":"Isiah Colon",
-   "powers":"Technomage"
+    "image": "images/image20.png",
+    "name": "Isiah Colon",
+    "powers": "Technomage",
+    "division": "Mekhane",
+    "type": "Ghost",
+    "grade": "amber"
   },
   {
-   "image":"images/image10.png",
-   "name":"Vienna Glenn",
-   "powers":"Soma Quick",
-   "bio":"Dirty Rumors"
+    "image": "images/image10.png",
+    "name": "Vienna Glenn",
+    "powers": "Soma Quick",
+    "bio": "Dirty Rumors",
+    "type": "Quick",
+    "grade": "amber"
   },
   {
-   "image":"images/image25.png",
-   "name":"Maverick Randolph",
-   "powers":"Pheromones",
-   "bio":"Senior Involved in dirty rumors who was shot because of Danny"
+    "image": "images/image25.png",
+    "name": "Maverick Randolph",
+    "powers": "Pheromones",
+    "bio": "Senior Involved in dirty rumors who was shot because of Danny",
+    "grade": "amber"
   },
   {
-   "image":"images/image4.png",
-   "name":"Darren Wall aka The Wall",
-   "powers":"immovable",
-   "bio":"Dan’s sparring partner and righteous dude."
+    "image": "images/image4.png",
+    "name": "Darren Wall aka The Wall",
+    "powers": "immovable",
+    "bio": "Dan’s sparring partner and righteous dude.",
+    "type": "Quick",
+    "grade": "amber"
   },
   {
-   "image":"images/image17.png",
-   "name":"Layla Lloyd",
-   "powers":"Psyche",
-   "bio":"Nat’s sparring partner"
+    "image": "images/image17.png",
+    "name": "Layla Lloyd",
+    "powers": "Psyche",
+    "bio": "Nat’s sparring partner",
+    "division": "Psyche",
+    "type": "ESPer",
+    "grade": "amber"
   },
   {
-   "image":"images/image6.png",
-   "name":"Lennox Giles",
-   "powers":"Forgettable Dominator",
-   "bio":"Fucked with them"
+    "image": "images/image6.png",
+    "name": "Lennox Giles",
+    "powers": "Forgettable Dominator",
+    "bio": "Fucked with them",
+    "division": "Psyche",
+    "type": "Dominator",
+    "grade": "amber"
   }
 ]

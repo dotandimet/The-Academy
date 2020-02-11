@@ -35,7 +35,8 @@ const division_types = {
   Energia: ["Torch", "Bolt", "Mover"]
 };
 
-const grades = {
+const grades = ['black', 'red', 'amber', 'bronze', 'silver', 'gold'];
+const grade_colors = {
   amber: "#cc9933",
   bronze: "#999933",
   red: "red",
@@ -50,5 +51,6 @@ export {
   division_icons,
   divisions,
   division_types,
+  grade_colors,
   grades
 };
