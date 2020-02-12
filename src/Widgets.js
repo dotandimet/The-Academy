@@ -3,14 +3,16 @@ import { Component, html, division_icons, grades, grade_colors } from "./defs.js
 export class Mark extends Component {
   render({ icon, color, ...props }) {
     return html`
-      <a class="level-item" ...${props}>
-        <span
-          class="icon is-small"
+        <button class="button is-small level-item"
           style="${color ? "color:" + color + ";" : ""}"
+         ...${props}
         >
+        <span
+          class="icon"
+          >
           <i class="fas ${icon}"></i>
         </span>
-      </a>
+        </button>
     `;
   }
 }
@@ -47,29 +49,32 @@ class Box extends Component {
               <p class="subtitle is-6 is-capitalized">${powers}</p>
               <p>${bio}</p>
             </div>
-            <nav class="level is-mobile">
-              <div class="level-left">
+            <nav class="is-mobile">
+               <div class="buttons has-addons">
                 <${Mark}
                   icon="fa-exclamation-triangle"
                   color=${grade_colors[grade]}
                   onClick=${() => filterAction("grade", grade)}
-                  title=${grade}
+                  title=${'Grade: ' + grade}
                 />
                 <${Mark}
                   icon=${division_icons[division]}
                   onClick=${() => filterAction("division", division)}
-                  title=${division}
+                  title=${'Division: ' + division}
                 />
                 <${Mark}
                   icon=${division_icons[type]}
                   onClick=${() => filterAction("type", type)}
-                  title=${type}
+                  title=${'Type: ' + type}
                 />
-                <${Mark}
-                  icon="fa-edit"
-                  onClick=${() => editCharacter(name)}
-                  title=${type}
-                />
+                ${ editCharacter &&
+                    html`
+                  <${Mark}
+                    icon="fa-edit"
+                    onClick=${() => editCharacter(name)}
+                    title="Edit Me"
+                  />` 
+                }
               </div>
             </nav>
           </div>

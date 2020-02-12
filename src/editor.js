@@ -64,7 +64,7 @@ ${value}</textarea
 }
 
 export class EditForm extends Component {
-  render({ name, bio, powers, grade, division, type, image, updateAction }) {
+  render({ name, bio, powers, grade, division, type, image, updateAction, closeAction }) {
     bio = bio ? bio : name;
     powers = powers ? powers : name;
     division = division ? division : "Soma";
@@ -132,6 +132,7 @@ export class EditForm extends Component {
           labels=${grade_labels}
           onClick=${updateAction}
         />
+        <button class="button" onClick=${closeAction}>Done</button>
       </form>
     `;
   }
