@@ -17,7 +17,8 @@ class App extends Component {
   }
 
   componentDidMount() {
-    this.loadData();
+    // this.loadData();
+    this.loadFirestoreData();
   }
 
   setFilter(term, value) {
@@ -33,6 +34,13 @@ class App extends Component {
     fetch(url)
       .then(res => res.json())
       .then(npcs => this.setState({ npcs }));
+  }
+
+ async loadFirestoreData() {
+    let querySnapShot = await this.db.collection('characters').get({source: 'server'})
+    const characters = []
+    querySnapShot.forEach((doc) => characters.push(doc.data()))
+    this.setState({ npcs: characters })
   }
 
   editCharacter(name) {
@@ -51,16 +59,15 @@ class App extends Component {
     this.setState({ npcs: new_list, editing: edited });
   }
 
-  updateFireStore() {
-		alert('we love you', this.db);
-		return Promise.all( this.npcs.map( (npc) => {
-			let doc = this.db.collection('characters').doc(npc.name);
-			return doc.set(npc, { merge: true });
-		} ) ).then( ()=> console.log('uploaded all NPCs') )
-				 .catch( (e) => console.log('Errors uploading: ', e) );
-		console.log('going to update the npc list to firebase...');
-	}
-		
+  async updateFireStore() {
+    console.log('going to update the npc list to firebase...');
+    return await Promise.all( this.state.npcs.map( (npc) => {
+      let doc = this.db.collection('characters').doc(npc.name);
+      return doc.set(npc, { merge: true });
+    } ) ).then( ()=> console.log('uploaded all NPCs') )
+         .catch( (e) => console.log('Errors uploading: ', e) );
+  }
+
   render(props, { npcs, user, ...state }) {
     const filterAction = (term, value) => this.setFilter(term, value);
     return html`
@@ -70,7 +77,7 @@ class App extends Component {
             <${SignOnWidget} user=${user} />
           </div>
           <div class="level-item">
-          <a onClick=${() => this.updateFireStore}>Upload to Cloud</a>
+          <a onClick=${() => this.updateFireStore()}>Upload to Cloud</a>
           </div>
         </div>
       </div>
