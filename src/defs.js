@@ -2,8 +2,8 @@ import {
   h,
   Component,
   render
-} from "https://unpkg.com/preact@10.2.1/dist/preact.module.js"; // 'https://unpkg.com/preact?module';
-import htm from "https://unpkg.com/htm?module";
+} from "/web_modules/preact.js"; //"https://unpkg.com/preact@10.2.1/dist/preact.module.js"; // 'https://unpkg.com/preact?module';
+import htm from "/web_modules/htm.js"; //"https://unpkg.com/htm?module";
 // Initialize htm with Preact
 const html = htm.bind(h);
 

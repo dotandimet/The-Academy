@@ -80,11 +80,13 @@ export class TheApp extends Component {
   }
 
   setFilter(term, value) {
-    this.setState({ filter: { term, value } });
-  }
-
-  clearFilter(term) {
-    this.setState({ filter: false });
+    // toggle off filter
+    if (this.state.filter && this.state.filter.term === term && this.state.filter.value === value) {
+      this.setState({filter: false});
+    }
+    else {
+      this.setState({ filter: { term, value } });
+    }
   }
 
   // Used for bootstrap, not used since moving to firebase
@@ -136,7 +138,7 @@ export class TheApp extends Component {
       let doc = this.db.collection('characters').doc(this.state.editing.name);
       await doc.set(this.state.editing, { merge: true });
       console.log('updated ', this.state.editing.name, ' in the cloud');
-      this.state.editing = false;
+      this.setState({editing: false});
     }
     catch(e) {
       console.log('Errors updating ', this.state.editing.name, ': ', e);
@@ -168,10 +170,9 @@ export class TheApp extends Component {
   </section>
   <section class="section">
     <div class="container">
-<div class="columns">
-        <div class="column">
-          <h2 class="title is-capitalized">Cast</h2>
-          <div class="mypanel">
+          <h2 class="title is-capitalized" style="position: sticky">Cast
+          </h2>
+            <div class="mypanel">
             <${NPCList}
               npcs=${npcs}
               filterAction=${filterAction}
@@ -179,11 +180,10 @@ export class TheApp extends Component {
                 this.editCharacter(name);
               }}
             />
-          </div>
-        </div>
-        <div class="column">
+           </div>
           ${state.filter &&
             html`
+        <div class="column">
               <h2 class="title is-capitalized">
                 ${state.filter.term}: ${state.filter.value}
               </h2>
@@ -197,12 +197,12 @@ export class TheApp extends Component {
                   )}
                 />
               </div>
-            `}
         </div>
-        <div class="column">
+            `}
           ${state.editing &&
             html`
-              <h2>Editing</h2>
+        <div class="column">
+              <h2 class="title">Editing</h2>
               <div class="mypanel">
                 <${EditForm}
                   ...${state.editing}
@@ -210,9 +210,8 @@ export class TheApp extends Component {
                   closeAction=${e => this.endEdit(e)}
                 />
               </div>
-            `}
         </div>
-      </div>
+            `}
     </div>
   </section>
     `;

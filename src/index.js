@@ -6,6 +6,7 @@ import {
 } from "./defs.js";
 
 import { firebaseConfig } from "./firebase_config.js";
+
 import { TheApp } from "./App.js";
 
 function initApp() {

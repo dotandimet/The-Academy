@@ -36,7 +36,8 @@ class Box extends Component {
     type || (type = "Freak");
 
     return html`
-      <div class="box animated fadeInDown" key=${name}>
+      <div class="tile is-parent is-4">
+      <div class="tile is-child box animated fadeInDown" key=${name}>
         <article class="media">
           <div class="media-left">
             <figure class="image is-128x128" style="overflow: hidden">
@@ -73,12 +74,13 @@ class Box extends Component {
                     icon="fa-edit"
                     onClick=${() => editCharacter(name)}
                     title="Edit Me"
-                  />` 
+                  />`
                 }
               </div>
             </nav>
           </div>
         </article>
+      </div>
       </div>
     `;
   }
@@ -86,12 +88,15 @@ class Box extends Component {
 
 export class NPCList extends Component {
   render({ npcs, filterAction, ...props }, state) {
-    return npcs.map(
+        return html`
+          <div class="tile is-ancestor" style="flex-wrap: wrap">
+        ${ npcs.map(
       npc =>
         html`
           <${Box} ...${npc}, filterAction=${filterAction} ...${props} />
+        `)}
+          </div>
         `
-    );
   }
 }
 
