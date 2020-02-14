@@ -129,16 +129,20 @@ export class TheApp extends Component {
          .catch( (e) => console.log('Errors uploading: ', e) );
   }
 
-  async endEdit(e) {
-    e.preventDefault();
+  async endEdit(edit) {
     if (!this.state.editing) {
-      return false;
+      return true;
     }
     try {
-      let doc = this.db.collection('characters').doc(this.state.editing.name);
-      await doc.set(this.state.editing, { merge: true });
-      console.log('updated ', this.state.editing.name, ' in the cloud');
-      this.setState({editing: false});
+    // console.log(edit);
+      let edited = { ...this.state.editing, ...edit };
+      const idx = this.state.editIndex;
+      const new_list = this.state.npcs.map(x => x); //copy the array
+      new_list.splice(idx, 1, edited);
+      let doc = this.db.collection('characters').doc(edited.name);
+      await doc.set(edited, { merge: true });
+      console.log('updated ', edited.name, ' in the cloud');
+      this.setState({ npcs: new_list, editing: false });
     }
     catch(e) {
       console.log('Errors updating ', this.state.editing.name, ': ', e);
@@ -206,7 +210,6 @@ export class TheApp extends Component {
               <div class="mypanel">
                 <${EditForm}
                   ...${state.editing}
-                  updateAction=${e => this.commitEdit(e)}
                   closeAction=${e => this.endEdit(e)}
                 />
               </div>

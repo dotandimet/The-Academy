@@ -64,7 +64,23 @@ ${value}</textarea
 }
 
 export class EditForm extends Component {
-  render({ name, bio, powers, grade, division, type, image, updateAction, closeAction }) {
+  constructor(props) {
+    super(props);
+    const {  name, bio, powers, grade, division, type, image } = props;
+    this.state = { name, bio, powers, grade, division, type, image };
+  }
+
+  onInput(e) {
+    const edit = { [e.target.name]: e.target.value };
+    this.setState(edit);
+  }
+
+  onDone(callback) {
+    callback(this.state);
+  }
+
+  render({closeAction}, { name, bio, powers, grade, division, type, image }) {
+    const updateAction = this.onInput.bind(this);
     bio = bio ? bio : name;
     powers = powers ? powers : name;
     division = division ? division : "Soma";
@@ -132,7 +148,7 @@ export class EditForm extends Component {
           labels=${grade_labels}
           onClick=${updateAction}
         />
-        <button class="button" onClick=${closeAction}>Done</button>
+        <button class="button" onClick=${(e) => {e.preventDefault(); this.onDone(closeAction)}}>Done</button>
       </form>
     `;
   }
