@@ -174,6 +174,7 @@ export class TheApp extends Component {
   </section>
   <section class="section">
     <div class="container">
+          ${ !state.filter && !state.editing && html`
           <h2 class="title is-capitalized" style="position: sticky">Cast
           </h2>
             <div class="mypanel">
@@ -184,7 +185,8 @@ export class TheApp extends Component {
                 this.editCharacter(name);
               }}
             />
-           </div>
+           </div>`
+           }
           ${state.filter &&
             html`
         <div class="column">
