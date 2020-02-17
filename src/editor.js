@@ -18,7 +18,7 @@ class RadioField extends Component {
         <div class="control">
           ${values.map(v => {
             return html`
-              <label class="radio ${(v === value) && 'has-text-primary'}">
+              <label class="radio ${v === value && "has-text-primary"}">
                 <input
                   type="radio"
                   name="${name}"
@@ -26,7 +26,8 @@ class RadioField extends Component {
                   checked="${v === value ? true : false}"
                   ...${props}
                 />
-                ${labels[v]}</label>
+                ${labels[v]}</label
+              >
             `;
           })}
         </div>
@@ -66,7 +67,7 @@ ${value}</textarea
 export class EditForm extends Component {
   constructor(props) {
     super(props);
-    const {  name, bio, powers, grade, division, type, image } = props;
+    const { name, bio, powers, grade, division, type, image } = props;
     this.state = { name, bio, powers, grade, division, type, image };
   }
 
@@ -79,7 +80,7 @@ export class EditForm extends Component {
     callback(this.state);
   }
 
-  render({closeAction}, { name, bio, powers, grade, division, type, image }) {
+  render({ closeAction }, { name, bio, powers, grade, division, type, image }) {
     const updateAction = this.onInput.bind(this);
     bio = bio ? bio : name;
     powers = powers ? powers : name;
@@ -88,21 +89,31 @@ export class EditForm extends Component {
     grade = grade ? grade : "Amber";
     const division_labels = divisions.reduce((l, d) => {
       l[d] = html`
-        <${Mark} icon=${division_icons[d]} title=${d} color=${(d===division) ? '#999933' : '#3273dc'}/><span class="is-size-7">${d}</span>
+        <${Mark}
+          icon=${division_icons[d]}
+          title=${d}
+          color=${d === division ? "#999933" : "#3273dc"}
+        /><span class="is-size-7">${d}</span>
       `;
       return l;
     }, {});
     const type_labels = division_types[division].reduce((l, d) => {
       l[d] = html`
-        <${Mark} icon=${division_icons[d]} title=${d} color=${(d===type) ? '#999933' : '#3273dc'} /><span class="is-size-7">${d}</span>
-
+        <${Mark}
+          icon=${division_icons[d]}
+          title=${d}
+          color=${d === type ? "#999933" : "#3273dc"}
+        /><span class="is-size-7">${d}</span>
       `;
       return l;
     }, {});
     const grade_labels = grades.reduce((l, d) => {
       l[d] = html`
-        <${Mark} icon="fa-exclamation-triangle" title=${d} color=${grade_colors[d]} /><span class="is-size-7">${d}</span>
-
+        <${Mark}
+          icon="fa-exclamation-triangle"
+          title=${d}
+          color=${grade_colors[d]}
+        /><span class="is-size-7">${d}</span>
       `;
       return l;
     }, {});
@@ -148,7 +159,15 @@ export class EditForm extends Component {
           labels=${grade_labels}
           onClick=${updateAction}
         />
-        <button class="button" onClick=${(e) => {e.preventDefault(); this.onDone(closeAction)}}>Done</button>
+        <button
+          class="button"
+          onClick=${e => {
+            e.preventDefault();
+            this.onDone(closeAction);
+          }}
+        >
+          Done
+        </button>
       </form>
     `;
   }
