@@ -32,12 +32,6 @@ const division_types = {
 };
 
 const grades = ["black", "red", "amber", "bronze", "silver", "gold"];
-const grade_colors = {
-  amber: "#cc9933",
-  bronze: "#999933",
-  red: "red",
-  black: "black"
-};
 
 export {
   Component,
@@ -48,6 +42,5 @@ export {
   division_icons,
   divisions,
   division_types,
-  grade_colors,
   grades
 };

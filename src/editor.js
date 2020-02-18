@@ -5,9 +5,12 @@ import {
   division_icons,
   divisions,
   division_types,
-  grades,
-  grade_colors
+  grades
 } from "./defs.js";
+
+import { svg_icons } from './icons.js';
+
+const icons = svg_icons('0.75rem', '#363636');
 
 import { Mark } from "./Widgets.js";
 
@@ -90,7 +93,7 @@ export class EditForm extends Component {
     const division_labels = divisions.reduce((l, d) => {
       l[d] = html`
         <${Mark}
-          icon=${division_icons[d]}
+          icon=${d}
           title=${d}
           color=${d === division ? "#999933" : "#3273dc"}
         /><span class="is-size-7">${d}</span>
@@ -100,7 +103,7 @@ export class EditForm extends Component {
     const type_labels = division_types[division].reduce((l, d) => {
       l[d] = html`
         <${Mark}
-          icon=${division_icons[d]}
+          icon=${d}
           title=${d}
           color=${d === type ? "#999933" : "#3273dc"}
         /><span class="is-size-7">${d}</span>
@@ -110,9 +113,8 @@ export class EditForm extends Component {
     const grade_labels = grades.reduce((l, d) => {
       l[d] = html`
         <${Mark}
-          icon="fa-exclamation-triangle"
+          icon=${d}
           title=${d}
-          color=${grade_colors[d]}
         /><span class="is-size-7">${d}</span>
       `;
       return l;

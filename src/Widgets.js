@@ -1,11 +1,12 @@
 import {
   Component,
   html,
-  toChildArray,
-  division_icons,
-  grades,
-  grade_colors
+  toChildArray
 } from "./defs.js";
+
+import { svg_icons } from './icons.js';
+
+const icons = svg_icons('0.75rem', '#363636');
 
 export class Mark extends Component {
   render({ icon, color, ...props }) {
@@ -15,9 +16,7 @@ export class Mark extends Component {
         style="${color ? "color:" + color + ";" : ""}"
         ...${props}
       >
-        <span class="icon">
-          <i class="fas ${icon}"></i>
-        </span>
+        <${icons[icon]} />
       </button>
     `;
   }
@@ -53,25 +52,24 @@ class Box extends Component {
               <nav class="is-mobile">
                 <div class="buttons has-addons">
                   <${Mark}
-                    icon="fa-exclamation-triangle"
-                    color=${grade_colors[grade]}
+                    icon=${grade}
                     onClick=${() => filterAction("grade", grade)}
                     title=${"Grade: " + grade}
                   />
                   <${Mark}
-                    icon=${division_icons[division]}
+                    icon=${division}
                     onClick=${() => filterAction("division", division)}
                     title=${"Division: " + division}
                   />
                   <${Mark}
-                    icon=${division_icons[type]}
+                    icon=${type}
                     onClick=${() => filterAction("type", type)}
                     title=${"Type: " + type}
                   />
                   ${editCharacter &&
                     html`
                       <${Mark}
-                        icon="fa-edit"
+                        icon="Edit"
                         onClick=${() => editCharacter(name)}
                         title="Edit Me"
                       />
