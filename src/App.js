@@ -200,12 +200,10 @@ export class TheApp extends Component {
           ${state.editing &&
             html`
               <h2 class="title">Editing</h2>
-              <div class="mypanel">
                 <${EditForm}
                   ...${state.editing}
                   closeAction=${e => this.endEdit(e)}
                 />
-              </div>
             `}
         </div>
       </section>

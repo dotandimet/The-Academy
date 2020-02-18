@@ -105,12 +105,10 @@ export class InfoPanel extends Component {
       <h2 class="title is-capitalized">
         ${section}: ${topic}
       </h2>
-      <div class="mypanel">
         <${NPCList}
           npcs=${npcs.filter(npc => npc[section] === topic)}
           ...${props}
         />
-      </div>
     `;
   }
 }
@@ -119,13 +117,11 @@ export class CastList extends Component {
   render(props, state) {
     return html`
       <h2 class="title is-capitalized" style="position: sticky">Cast</h2>
-      <div class="mypanel">
         <${NPCList}
           npcs=${props.npcs}
           filterAction=${props.filterAction}
           editCharacter=${props.editCharacter}
         />
-      </div>
     `;
   }
 }
