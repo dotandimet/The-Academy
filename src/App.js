@@ -111,17 +111,7 @@ export class TheApp extends Component {
     this.setState({ editing: editThis, editIndex: editAtIndex });
   }
 
-  commitEdit(e) {
-    const edit = { [e.target.name]: e.target.value };
-    // console.log(edit);
-    let edited = { ...this.state.editing, ...edit };
-    const idx = this.state.editIndex;
-    const new_list = this.state.npcs.map(x => x); //copy the array
-    new_list.splice(idx, 1, edited);
-    this.setState({ npcs: new_list, editing: edited });
-  }
-
-  async updateFireStore() {
+    async updateFireStore() {
     console.log("going to update the npc list to firebase...");
     return await Promise.all(
       this.state.npcs.map(npc => {
@@ -133,7 +123,12 @@ export class TheApp extends Component {
       .catch(e => console.log("Errors uploading: ", e));
   }
 
-  async endEdit(edit) {
+  async abortEdit(e) {
+    e.preventDefault();
+    this.setState({editing: false, editIndex: -1});
+  }
+
+  async commitEdit(edit) {
     if (!this.state.editing) {
       return true;
     }
@@ -199,10 +194,11 @@ export class TheApp extends Component {
             `}
           ${state.editing &&
             html`
+              <nav class="nav level"><a class="level-item level-left" onclick=${e => this.abortEdit(e)}>cancel</a></nav>
               <h2 class="title">Editing</h2>
                 <${EditForm}
                   ...${state.editing}
-                  closeAction=${e => this.endEdit(e)}
+                  closeAction=${e => this.commitEdit(e)}
                 />
             `}
         </div>
