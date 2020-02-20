@@ -2,7 +2,7 @@ import { Component, html } from "./defs.js";
 
 import { EditForm } from "./editor.js";
 import { SignOnWidget } from "./SignOnWidget.js";
-import { NPCList, CastList, InfoPanel } from "./Widgets.js";
+import { CastList, InfoPanel } from "./Widgets.js";
 
 export class TheApp extends Component {
   constructor() {
@@ -135,6 +135,12 @@ export class TheApp extends Component {
     try {
       // console.log(edit);
       let edited = { ...this.state.editing, ...edit };
+      // clean up undefined fields:
+      for (let k in edited) {
+        if (edited[k] === undefined) {
+          edited[k] = "";
+        }
+      }
       const idx = this.state.editIndex;
       const new_list = this.state.npcs.map(x => x); //copy the array
       new_list.splice(idx, 1, edited);
