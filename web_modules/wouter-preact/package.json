@@ -1,0 +1,50 @@
+{
+  "_from": "wouter-preact",
+  "_id": "wouter-preact@2.4.0",
+  "_inBundle": false,
+  "_integrity": "sha512-QdqZpG3F5C3MHrQf04sGyEF9ZbTeD+ShnlxiOzc33XTRri3hXe+eVXlvyem4IOr4YnKwhx3klu8ti3ItQiQGVQ==",
+  "_location": "/wouter-preact",
+  "_phantomChildren": {},
+  "_requested": {
+    "type": "tag",
+    "registry": true,
+    "raw": "wouter-preact",
+    "name": "wouter-preact",
+    "escapedName": "wouter-preact",
+    "rawSpec": "",
+    "saveSpec": null,
+    "fetchSpec": "latest"
+  },
+  "_requiredBy": [
+    "#USER",
+    "/"
+  ],
+  "_resolved": "https://registry.npmjs.org/wouter-preact/-/wouter-preact-2.4.0.tgz",
+  "_shasum": "7e9bef3293408b1fc2fe1346da08152dffbce850",
+  "_spec": "wouter-preact",
+  "_where": "/Users/dotandimet/code/The-Academy",
+  "author": {
+    "name": "Alexey Taktarov",
+    "email": "molefrog@gmail.com"
+  },
+  "bugs": {
+    "url": "https://github.com/molefrog/wouter/issues"
+  },
+  "bundleDependencies": false,
+  "deprecated": false,
+  "description": "A minimalistic routing for React and Preact (Preact-only version).",
+  "homepage": "https://github.com/molefrog/wouter#readme",
+  "license": "ISC",
+  "main": "cjs/index.js",
+  "module": "index.js",
+  "name": "wouter-preact",
+  "peerDependencies": {
+    "preact": "^10.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/molefrog/wouter.git"
+  },
+  "types": "index.d.ts",
+  "version": "2.4.0"
+}

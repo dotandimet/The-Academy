@@ -3,12 +3,16 @@ import { Component, html } from "./defs.js";
 import { EditForm } from "./editor.js";
 import { SignOnWidget } from "./SignOnWidget.js";
 import { CastList, InfoPanel } from "./Widgets.js";
+import { Switch, Route, useLocation } from "/web_modules/wouter-preact/index.js";
 
 export class TheApp extends Component {
   constructor() {
     super();
     this.state = { npcs: [], filter: false, editing: false, user: null };
     this.db = firebase.firestore();
+    const [location, setLocation] = useLocation();
+    this.location = location;
+    this.setLocation = setLocation;
   }
 
   componentDidMount() {
@@ -137,7 +141,7 @@ export class TheApp extends Component {
         grade: "Amber"
       }
     );
-    this.setState({ editing: editThis, editIndex: editAtIndex });
+    this.setState({ editing: editThis, editIndex: editAtIndex }, () => this.setLocation(`/edit/${name}`));
   }
 
   async updateFireStore() {
@@ -217,9 +221,7 @@ export class TheApp extends Component {
       </section>
       <section class="section">
         <div class="container">
-          ${!state.filter &&
-            !state.editing &&
-            html`
+        <${Route} path="/">
               <${CastList}
                 npcs=${npcs}
                 filterAction=${filterAction}
@@ -227,7 +229,8 @@ export class TheApp extends Component {
                   this.editCharacter(name);
                 }}
               />
-            `}
+          <//>
+          <${Route} path="/about/:section/:topic">
           ${state.filter &&
             html`
               <${InfoPanel}
@@ -237,8 +240,8 @@ export class TheApp extends Component {
                 filterAction=${filterAction}
               />
             `}
-          ${state.editing &&
-            html`
+          <//>
+          <${Route} path="/edit/:name">
               <nav class="nav level">
                 <a
                   class="level-item level-left"
@@ -251,7 +254,7 @@ export class TheApp extends Component {
                 ...${state.editing}
                 closeAction=${e => this.commitEdit(e)}
               />
-            `}
+          <//>
         </div>
       </section>
     `;
