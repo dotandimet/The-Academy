@@ -105,13 +105,42 @@ export class TheApp extends Component {
     this.setState({ npcs: characters });
   }
 
+  pickName(names = this.state.names) {
+    let semi_rand = Date.now();
+    let list = semi_rand % 2 == 0 ? "boys" : "girls";
+    let index = semi_rand % 5;
+    return names[list][index];
+  }
+
+  async addCharacter() {
+    let { default: get_names } = await import(
+      "https://dotandimet.github.io/npc_names/names.js"
+    );
+    const names = get_names();
+    this.setState({ names });
+    let name = this.pickName(names);
+    let npcs_copy = this.state.npcs.map(x => x);
+    npcs_copy.push({ name });
+    this.setState({ npcs: npcs_copy }, () => this.editCharacter(name));
+  }
+
   editCharacter(name) {
     const editAtIndex = this.state.npcs.findIndex(npc => npc.name === name);
-    const editThis = this.state.npcs[editAtIndex];
+    const editThis = Object.assign(
+      this.state.npcs[editAtIndex],
+      // fill in undefined fields in the character data itself:
+      {
+        bio: name,
+        powers: name,
+        division: "Soma",
+        type: "Freak",
+        grade: "Amber"
+      }
+    );
     this.setState({ editing: editThis, editIndex: editAtIndex });
   }
 
-    async updateFireStore() {
+  async updateFireStore() {
     console.log("going to update the npc list to firebase...");
     return await Promise.all(
       this.state.npcs.map(npc => {
@@ -125,7 +154,7 @@ export class TheApp extends Component {
 
   async abortEdit(e) {
     e.preventDefault();
-    this.setState({editing: false, editIndex: -1});
+    this.setState({ editing: false, editIndex: -1 });
   }
 
   async commitEdit(edit) {
@@ -141,6 +170,9 @@ export class TheApp extends Component {
           edited[k] = "";
         }
       }
+      // add info fields:
+      edited["last-edited-by"] = this.user.displayName;
+      edited["last-edited-at"] = new Date().toISOString();
       const idx = this.state.editIndex;
       const new_list = this.state.npcs.map(x => x); //copy the array
       new_list.splice(idx, 1, edited);
@@ -162,7 +194,14 @@ export class TheApp extends Component {
             <${SignOnWidget} user=${user} />
           </div>
           <div class="level-item">
-            <a onClick=${() => this.updateFireStore()}>Upload to Cloud</a>
+            <button onClick=${() => this.updateFireStore()}>
+              Upload to Cloud
+            </button>
+          </div>
+          <div class="level-item">
+            <button onclick=${() => this.addCharacter()}>
+              Add New Character
+            </button>
           </div>
         </div>
       </nav>
@@ -200,12 +239,18 @@ export class TheApp extends Component {
             `}
           ${state.editing &&
             html`
-              <nav class="nav level"><a class="level-item level-left" onclick=${e => this.abortEdit(e)}>cancel</a></nav>
+              <nav class="nav level">
+                <a
+                  class="level-item level-left"
+                  onclick=${e => this.abortEdit(e)}
+                  >cancel</a
+                >
+              </nav>
               <h2 class="title">Editing</h2>
-                <${EditForm}
-                  ...${state.editing}
-                  closeAction=${e => this.commitEdit(e)}
-                />
+              <${EditForm}
+                ...${state.editing}
+                closeAction=${e => this.commitEdit(e)}
+              />
             `}
         </div>
       </section>

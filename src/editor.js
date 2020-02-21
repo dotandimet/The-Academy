@@ -8,9 +8,9 @@ import {
   grades
 } from "./defs.js";
 
-import { svg_icons } from './icons.js';
+import { svg_icons } from "./icons.js";
 
-const icons = svg_icons('0.75rem', '#363636');
+const icons = svg_icons("0.75rem", "#363636");
 
 import { Mark } from "./Widgets.js";
 
@@ -85,11 +85,6 @@ export class EditForm extends Component {
 
   render({ closeAction }, { name, bio, powers, grade, division, type, image }) {
     const updateAction = this.onInput.bind(this);
-    bio = bio ? bio : name;
-    powers = powers ? powers : name;
-    division = division ? division : "Soma";
-    type = type ? type : "Freak";
-    grade = grade ? grade : "Amber";
     const division_labels = divisions.reduce((l, d) => {
       l[d] = html`
         <${Mark}
@@ -112,10 +107,7 @@ export class EditForm extends Component {
     }, {});
     const grade_labels = grades.reduce((l, d) => {
       l[d] = html`
-        <${Mark}
-          icon=${d}
-          title=${d}
-        /><span class="is-size-7">${d}</span>
+        <${Mark} icon=${d} title=${d} /><span class="is-size-7">${d}</span>
       `;
       return l;
     }, {});
