@@ -2,7 +2,6 @@ import {
   Component,
   render,
   html,
-  division_icons,
   divisions,
   division_types,
   grades

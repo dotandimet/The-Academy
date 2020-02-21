@@ -3,25 +3,6 @@ import htm from "/web_modules/htm.js"; //"https://unpkg.com/htm?module";
 // Initialize htm with Preact
 const html = htm.bind(h);
 
-const division_icons = {
-  Soma: "fa-child",
-  Quick: "fa-running",
-  Freak: "fa-biohazard",
-  Mekhane: "fa-cog",
-  Gremlin: "fa-wrench",
-  Ghost: "fa-ghost",
-  Psyche: "fa-brain",
-  ESPer: "fa-heart-broken",
-  Dominator: "fa-hand-holding-heart",
-  Energia: "fa-sun",
-  Torch: "fa-fire",
-  Bolt: "fa-bolt",
-  Mover: "fa-meteor",
-  Daimon: "fa-hat-wizard",
-  Oracle: "fa-crow",
-  Channeler: "fa-cat"
-};
-
 const divisions = ["Monday", "Soma", "Psyche", "Mekhane", "Daimon", "Energia"];
 const division_types = {
   Monday: ["Employee"],
@@ -40,7 +21,6 @@ export {
   h,
   html,
   toChildArray,
-  division_icons,
   divisions,
   division_types,
   grades
