@@ -22,8 +22,9 @@ const division_icons = {
   Channeler: "fa-cat"
 };
 
-const divisions = ["Soma", "Psyche", "Mekhane", "Daimon", "Energia"];
+const divisions = ["Monday", "Soma", "Psyche", "Mekhane", "Daimon", "Energia"];
 const division_types = {
+  Monday: ["Employee"],
   Soma: ["Quick", "Freak"],
   Psyche: ["Dominator", "ESPer"],
   Mekhane: ["Gremlin", "Ghost"],
