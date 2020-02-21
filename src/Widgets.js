@@ -1,12 +1,8 @@
-import {
-  Component,
-  html,
-  toChildArray
-} from "./defs.js";
+import { Component, html, toChildArray } from "./defs.js";
 
-import { svg_icons } from './icons.js';
+import { svg_icons } from "./icons.js";
 
-const icons = svg_icons('0.75rem', '#363636');
+const icons = svg_icons("0.75rem", "#363636");
 
 export class Mark extends Component {
   render({ icon, color, ...props }) {
@@ -105,10 +101,10 @@ export class InfoPanel extends Component {
       <h2 class="title is-capitalized">
         ${section}: ${topic}
       </h2>
-        <${NPCList}
-          npcs=${npcs.filter(npc => npc[section] === topic)}
-          ...${props}
-        />
+      <${NPCList}
+        npcs=${npcs.filter(npc => npc[section] === topic)}
+        ...${props}
+      />
     `;
   }
 }
@@ -117,11 +113,11 @@ export class CastList extends Component {
   render(props, state) {
     return html`
       <h2 class="title is-capitalized" style="position: sticky">Cast</h2>
-        <${NPCList}
-          npcs=${props.npcs}
-          filterAction=${props.filterAction}
-          editCharacter=${props.editCharacter}
-        />
+      <${NPCList}
+        npcs=${props.npcs}
+        filterAction=${props.filterAction}
+        editCharacter=${props.editCharacter}
+      />
     `;
   }
 }
