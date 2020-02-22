@@ -1,7 +1,8 @@
 {
   "imports": {
-    "firebase": "./firebase.js?rev=8ba2462ffd",
-    "htm": "./htm.js?rev=d43fbd8039",
-    "preact": "./preact.js?rev=5f00e5bb59"
+    "firebase": "./firebase.js",
+    "htm": "./htm.js",
+    "preact": "./preact.js",
+    "wouter-preact": "./wouter-preact.js"
   }
 }

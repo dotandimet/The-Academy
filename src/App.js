@@ -3,12 +3,12 @@ import { Component, html } from "./defs.js";
 import { EditForm } from "./editor.js";
 import { SignOnWidget } from "./SignOnWidget.js";
 import { CastList, InfoPanel } from "./Widgets.js";
-import { Switch, Route, useLocation } from "/web_modules/wouter-preact/index.js";
+import { Switch, Route, useLocation } from "/web_modules/wouter-preact.js";
 
 export class TheApp extends Component {
   constructor() {
     super();
-    this.state = { npcs: [], filter: false, editing: false, user: null };
+    this.state = { npcs: [], editing: false, user: null };
     this.db = firebase.firestore();
     const [location, setLocation] = useLocation();
     this.location = location;
@@ -79,19 +79,6 @@ export class TheApp extends Component {
     });
   }
 
-  setFilter(term, value) {
-    // toggle off filter
-    if (
-      this.state.filter &&
-      this.state.filter.term === term &&
-      this.state.filter.value === value
-    ) {
-      this.setState({ filter: false });
-    } else {
-      this.setState({ filter: { term, value } });
-    }
-  }
-
   // Used for bootstrap, not used since moving to firebase
   loadData() {
     const url = this.props.src ? this.props.src : "npcs.json";
@@ -131,7 +118,6 @@ export class TheApp extends Component {
   editCharacter(name) {
     const editAtIndex = this.state.npcs.findIndex(npc => npc.name === name);
     const editThis = Object.assign(
-      this.state.npcs[editAtIndex],
       // fill in undefined fields in the character data itself:
       {
         bio: name,
@@ -139,7 +125,8 @@ export class TheApp extends Component {
         division: "Soma",
         type: "Freak",
         grade: "Amber"
-      }
+      },
+      this.state.npcs[editAtIndex]
     );
     this.setState({ editing: editThis, editIndex: editAtIndex }, () => this.setLocation(`/edit/${name}`));
   }
@@ -190,7 +177,6 @@ export class TheApp extends Component {
   }
 
   render(props, { npcs, user, ...state }) {
-    const filterAction = (term, value) => this.setFilter(term, value);
     return html`
       <nav class="level">
         <div class="level-left">
@@ -221,40 +207,32 @@ export class TheApp extends Component {
       </section>
       <section class="section">
         <div class="container">
+        <${Switch}>
         <${Route} path="/">
               <${CastList}
                 npcs=${npcs}
-                filterAction=${filterAction}
                 editCharacter=${name => {
                   this.editCharacter(name);
                 }}
               />
           <//>
           <${Route} path="/about/:section/:topic">
-          ${state.filter &&
-            html`
+            ${(params) => { return html`
               <${InfoPanel}
                 npcs=${npcs}
-                section=${state.filter.term}
-                topic=${state.filter.value}
-                filterAction=${filterAction}
+                section=${params.section}
+                topic=${params.topic}
               />
-            `}
+                `; }}
           <//>
           <${Route} path="/edit/:name">
-              <nav class="nav level">
-                <a
-                  class="level-item level-left"
-                  onclick=${e => this.abortEdit(e)}
-                  >cancel</a
-                >
-              </nav>
               <h2 class="title">Editing</h2>
               <${EditForm}
                 ...${state.editing}
                 closeAction=${e => this.commitEdit(e)}
               />
           <//>
+        </Switch>
         </div>
       </section>
     `;

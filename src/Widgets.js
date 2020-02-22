@@ -1,5 +1,5 @@
 import { Component, html, toChildArray } from "./defs.js";
-
+import { Link, useLocation } from "/web_modules/wouter-preact.js";
 import { svg_icons } from "./icons.js";
 
 const icons = svg_icons("0.75rem", "#363636");
@@ -27,7 +27,6 @@ class Box extends Component {
     bio,
     powers,
     image,
-    filterAction,
     editCharacter
   }) {
     return html`
@@ -36,7 +35,7 @@ class Box extends Component {
           <article class="media">
             <div class="media-left">
               <figure class="image is-128x128" style="overflow: hidden">
-                <img src="${image}" alt="Image" class="is-rounded" />
+                <img src="/${image}" alt="Image" class="is-rounded" />
               </figure>
             </div>
             <div class="media-content">
@@ -47,21 +46,27 @@ class Box extends Component {
               </div>
               <nav class="is-mobile">
                 <div class="buttons has-addons">
-                  <${Mark}
-                    icon=${grade}
-                    onClick=${() => filterAction("grade", grade)}
+                  <${Link} href="/about/grade/${grade}">
+                    <a 
                     title=${"Grade: " + grade}
-                  />
-                  <${Mark}
-                    icon=${division}
-                    onClick=${() => filterAction("division", division)}
+        class="button is-small level-item" >
+                   <${icons[grade]} />
+                  </a>
+                  <//>
+                  <${Link} href="/about/division/${division}">
+                   <a 
                     title=${"Division: " + division}
-                  />
-                  <${Mark}
-                    icon=${type}
-                    onClick=${() => filterAction("type", type)}
+        class="button is-small level-item" >
+                   <${icons[division]} />
+                    </a>
+                  <//>
+                  <${Link} href="/about/type/${type}">
+                  <a
                     title=${"Type: " + type}
-                  />
+                  class="button is-small level-item" >
+                   <${icons[type]} />
+                  </a>
+                  <//>
                   ${editCharacter &&
                     html`
                       <${Mark}
@@ -81,13 +86,13 @@ class Box extends Component {
 }
 
 export class NPCList extends Component {
-  render({ npcs, filterAction, ...props }, state) {
+  render({ npcs, ...props }, state) {
     return html`
       <div class="tile is-ancestor" style="flex-wrap: wrap">
         ${npcs.map(
           npc =>
             html`
-              <${Box} ...${npc}, filterAction=${filterAction} ...${props} />
+              <${Box} ...${npc}, ...${props} />
             `
         )}
       </div>
@@ -115,7 +120,6 @@ export class CastList extends Component {
       <h2 class="title is-capitalized" style="position: sticky">Cast</h2>
       <${NPCList}
         npcs=${props.npcs}
-        filterAction=${props.filterAction}
         editCharacter=${props.editCharacter}
       />
     `;
