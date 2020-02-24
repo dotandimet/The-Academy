@@ -1,6 +1,6 @@
 import { createStore } from '/web_modules/unistore/full/preact.es.js';
 
-export let store = createStore( { npcs: [], user: null, names: {'boys': ['Jayden'], 'girls': ['Holly']} } )
+export let store = createStore( { npcs: [], user: null, names: null } )
 
 export let myActions = {
   // Used for bootstrap, not used since moving to firebase
@@ -39,11 +39,7 @@ export let myActions = {
     );
     const names = get_names();
     store.setState({ names });
-  }
-
-};
-
-export let editActions = {
+  },
 
   async commitEdit(state, edit) {
     try {
@@ -58,7 +54,7 @@ export let editActions = {
         }
       }
       // add info fields:
-//      edited["last-edited-by"] = state.user.displayName;
+      edited["last-edited-by"] = state.user.displayName;
       edited["last-edited-at"] = new Date().toISOString();
       const new_list = state.npcs.map(x => x); //copy the array
       if (editIndex > -1)
@@ -72,56 +68,63 @@ export let editActions = {
     } catch (e) {
       console.log("Errors updating ", edit.name, ": ", e);
     }
+  },
+  async setupAuthentication(state) {
+    try {
+      const result = await firebase.auth().getRedirectResult();
+      if (result) {
+        if (result.credential) {
+          // This gives you a Google Access Token. You can use it to access the Google API.
+          var token = result.credential.accessToken;
+          store.setState({ token: token });
+        }
+        // The signed-in user info.
+        let user = result.user;
+        if (user != null) {
+          // User is signed in.
+          var displayName = user.displayName;
+          var email = user.email;
+          var emailVerified = user.emailVerified;
+          var photoURL = user.photoURL;
+          var isAnonymous = user.isAnonymous;
+          var uid = user.uid;
+          var providerData = user.providerData;
+          store.setState({ user: { displayName, email, photoURL, uid } });
+          console.log("Got user ", user.displayName);
+          console.log("token: " + token);
+        }
+      }
+    } catch (error) {
+      // Handle Errors here.
+      var errorCode = error.code;
+      var errorMessage = error.message;
+      // The email of the user's account used.
+      var email = error.email;
+      // The firebase.auth.AuthCredential type that was used.
+      var credential = error.credential;
+      // ...
+      console.log(
+        "code: " + errorCode + " message:" + errorMessage + " email: " + email
+      );
+    }
+
+    // Listening for auth state changes.
+    firebase.auth().onAuthStateChanged(user => {
+      if (user) {
+        // User is signed in.
+        var displayName = user.displayName;
+        var email = user.email;
+        var emailVerified = user.emailVerified;
+        var photoURL = user.photoURL;
+        var isAnonymous = user.isAnonymous;
+        var uid = user.uid;
+        var providerData = user.providerData;
+        store.setState({ user: { displayName, email, photoURL, uid } });
+      } else {
+        // User is signed out.
+        store.setState({ user: null });
+      }
+    });
   }
 
 };
-/*
-  async updateFireStore() {
-    console.log("going to update the npc list to firebase...");
-    return await Promise.all(
-      this.state.npcs.map(npc => {
-        let doc = this.db.collection("characters").doc(npc.name);
-        return doc.set(npc, { merge: true });
-      })
-    )
-      .then(() => console.log("uploaded all NPCs"))
-      .catch(e => console.log("Errors uploading: ", e));
-  }
-
-  async abortEdit(e) {
-    e.preventDefault();
-    this.setState({ editing: false, editIndex: -1 });
-  }
-
-  async commitEdit(edit) {
-    if (!this.state.editing) {
-      return true;
-    }
-    try {
-      // console.log(edit);
-      let edited = { ...this.state.editing, ...edit };
-      // clean up undefined fields:
-      for (let k in edited) {
-        if (edited[k] === undefined) {
-          edited[k] = "";
-        }
-      }
-      // add info fields:
-      edited["last-edited-by"] = this.user.displayName;
-      edited["last-edited-at"] = new Date().toISOString();
-      const idx = this.state.editIndex;
-      const new_list = this.state.npcs.map(x => x); //copy the array
-      new_list.splice(idx, 1, edited);
-      let doc = this.db.collection("characters").doc(edited.name);
-      await doc.set(edited, { merge: true });
-      console.log("updated ", edited.name, " in the cloud");
-      this.setState({ npcs: new_list, editing: false });
-    } catch (e) {
-      console.log("Errors updating ", this.state.editing.name, ": ", e);
-    }
-  }
-
-*/
-
-
-

@@ -15,7 +15,7 @@ import { Mark } from "./Widgets.js";
 
 import { connect } from '/web_modules/unistore/full/preact.es.js';
 
-import { myActions, editActions } from './Store.js';
+import { myActions } from './Store.js';
 
 import { useLocation } from '/web_modules/wouter-preact.js';
 
@@ -168,7 +168,7 @@ class EditForm1 extends Component {
     `;
   }
 }
-export const EditForm = connect(['npcs'], {...myActions, ...editActions}) ( EditForm1 );
+export const EditForm = connect(['npcs'], myActions) ( EditForm1 );
 
 class NamePicker1 extends Component {
   constructor(props) {
@@ -215,4 +215,4 @@ class NamePicker1 extends Component {
     </form>`
   }
 }
-export const NamePicker = connect(['names'], { ...myActions })( NamePicker1 );
+export const NamePicker = connect(['names'], myActions )( NamePicker1 );
