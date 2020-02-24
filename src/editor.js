@@ -20,13 +20,13 @@ import { myActions } from './Store.js';
 import { useLocation } from '/web_modules/wouter-preact.js';
 
 class RadioField extends Component {
-  render({ name, value, values, labels, ...props }) {
+  render({ name, value, values, labeler, ...props }) {
     return html`
       <div class="field">
-        <div class="control">
+        <div class="control level-left">
           ${values.map(v => {
             return html`
-              <label class="radio ${v === value && "has-text-primary"}">
+              <label class="radio ${(v === value) ? "has-text-primary": ""} level-item">
                 <input
                   type="radio"
                   name="${name}"
@@ -34,7 +34,7 @@ class RadioField extends Component {
                   checked="${v === value ? true : false}"
                   ...${props}
                 />
-                ${labels[v]}</label
+                ${labeler(name, v)}</label
               >
             `;
           })}
@@ -72,6 +72,29 @@ ${value}</textarea
   }
 }
 
+class EditImage extends Component {
+  render({image}) {
+    const getFile = (e) => console.log(e.target.files[0].name);
+    return html`
+  <div class="field">
+<div class="file">
+  <label class="file-label">
+      <figure class="image is-128x128" style="overflow: hidden">
+          <img src="/${image}" alt="Image" />
+      </figure>
+    <input class="file-input" type="file" name="resume" onChange="${getFile}" />
+    <span class="file-cta">
+<span class="file-label">
+        Choose a file…
+      </span>
+    </span>
+  </label>
+</div>
+</div>
+    `;
+  }
+}
+
 class EditForm1 extends Component {
   constructor(props) {
     super(props);
@@ -92,32 +115,10 @@ class EditForm1 extends Component {
     const updateAction = (e) => this.setState({[e.target.name]: e.target.value });
     const [ loc, setLocation ] = useLocation();
     const commitAction = (e) => { e.preventDefault(); commitEdit(this.state); setLocation('/') };
-    const division_labels = divisions.reduce((l, d) => {
-      l[d] = html`
-        <${Mark}
-          icon=${d}
-          title=${d}
-          color=${(division && d === division) ? "#999933" : "#3273dc"}
-        /><span class="is-size-7">${d}</span>
-      `;
-      return l;
-    }, {});
-    const type_labels = (division) ? division_types[division].reduce((l, d) => {
-      l[d] = html`
-        <${Mark}
-          icon=${d}
-          title=${d}
-          color=${(type && d === type) ? "#999933" : "#3273dc"}
-        /><span class="is-size-7">${d}</span>
-      `;
-      return l;
-    }, {}) : [];
-    const grade_labels = grades.reduce((l, d) => {
-      l[d] = html`
-        <${Mark} icon=${d} title=${d} /><span class="is-size-7">${d}</span>
-      `;
-      return l;
-    }, {});
+    const label_func = (name, val) => html`<span
+            class="tag"
+            title="${name}: ${val}"><${icons[val]} />
+            ${val}</span>`;
     return html`
       <form onSubmit=${commitAction}>
         <${EditField}
@@ -132,6 +133,7 @@ class EditForm1 extends Component {
           name="powers"
           onInput=${updateAction}
         />
+        <${EditImage} image=${image} />
         <${EditField}
           big="true"
           label="Bio"
@@ -143,7 +145,7 @@ class EditForm1 extends Component {
           name="division"
           values=${divisions}
           value=${division}
-          labels=${division_labels}
+          labeler=${label_func}
           onClick=${updateAction}
         />
         ${division && html`
@@ -151,7 +153,7 @@ class EditForm1 extends Component {
           name="type"
           values=${division_types[division]}
           value=${type}
-          labels=${type_labels}
+          labeler=${label_func}
           onClick=${updateAction}
         />
         `}
@@ -159,7 +161,7 @@ class EditForm1 extends Component {
           name="grade"
           values=${grades}
           value=${grade}
-          labels=${grade_labels}
+          labeler=${label_func}
           onClick=${updateAction}
         />
         <button class="button"
