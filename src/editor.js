@@ -13,6 +13,10 @@ const icons = svg_icons("0.75rem", "#363636");
 
 import { Mark } from "./Widgets.js";
 
+import { connect } from '/web_modules/unistore/full/preact.es.js';
+
+import { editActions } from './Store.js';
+
 class RadioField extends Component {
   render({ name, value, values, labels, ...props }) {
     return html`
@@ -66,12 +70,13 @@ ${value}</textarea
   }
 }
 
-export class EditForm extends Component {
+class EditForm1 extends Component {
   constructor(props) {
     super(props);
     const { name, bio, powers, grade, division, type, image } = props;
     this.state = { name, bio, powers, grade, division, type, image };
   }
+
 
   onInput(e) {
     const edit = { [e.target.name]: e.target.value };
@@ -165,3 +170,4 @@ export class EditForm extends Component {
     `;
   }
 }
+export const EditForm = connect(editActions) ( EditForm1 );

@@ -67,14 +67,13 @@ class Box extends Component {
                    <${icons[type]} />
                   </a>
                   <//>
-                  ${editCharacter &&
-                    html`
-                      <${Mark}
-                        icon="Edit"
-                        onClick=${() => editCharacter(name)}
-                        title="Edit Me"
-                      />
-                    `}
+                  <${Link} href="/edit/${name}">
+                  <a
+                  title="Edit Me"
+                  class="button is-small level-item" >
+                  <${icons['Edit']} />
+                  </a>
+                  <//>
                 </div>
               </nav>
             </div>

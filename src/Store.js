@@ -16,8 +16,24 @@ export let myActions = {
       .get({ source: "server" });
     const characters = [];
     querySnapShot.forEach(doc => characters.push(doc.data()));
-    store.setState({ npcs: characters });
+    // store.setState({ npcs: characters });
+    return { npcs: characters };
   },
+  async updateFireStore(state) {
+    console.log("going to update the npc list to firebase...");
+    return await Promise.all(
+      state.npcs.map(npc => {
+        let doc = this.db.collection("characters").doc(npc.name);
+        return doc.set(npc, { merge: true });
+      })
+    )
+      .then(() => console.log("uploaded all NPCs"))
+      .catch(e => console.log("Errors uploading: ", e));
+  }
+
+};
+
+export let editActions = {
   editCharacter(state, name) {
     const editAtIndex = state.npcs.findIndex(npc => npc.name === name);
     const editThis = Object.assign(
@@ -31,7 +47,61 @@ export let myActions = {
       },
       state.npcs[editAtIndex]
     );
-    store.setState({ editing: editThis, editIndex: editAtIndex });
+    // store.setState({ editing: editThis, editIndex: editAtIndex });
+    return { editing: editThis, editIndex: editAtIndex };
+  },
+
+  pickName(state, names = state.names) {
+    let semi_rand = Date.now();
+    let list = semi_rand % 2 == 0 ? "boys" : "girls";
+    let index = semi_rand % 5;
+    return names[list][index];
+  },
+
+  async addCharacter() {
+    let { default: get_names } = await import(
+      "https://dotandimet.github.io/npc_names/names.js"
+    );
+    const names = get_names();
+    this.setState({ names });
+    let name = this.pickName(names);
+    let npcs_copy = this.state.npcs.map(x => x);
+    npcs_copy.push({ name });
+    this.setState({ npcs: npcs_copy }, () => this.setLocation(`/edit/${name}`));
+  },
+
+
+  async abortEdit(e) {
+    e.preventDefault();
+    this.setState({ editing: false, editIndex: -1 });
+  },
+
+  async commitEdit(edit) {
+    if (!this.state.editing) {
+      return true;
+    }
+    try {
+      // console.log(edit);
+      let edited = { ...this.state.editing, ...edit };
+      // clean up undefined fields:
+      for (let k in edited) {
+        if (edited[k] === undefined) {
+          edited[k] = "";
+        }
+      }
+      // add info fields:
+      edited["last-edited-by"] = this.user.displayName;
+      edited["last-edited-at"] = new Date().toISOString();
+      const idx = this.state.editIndex;
+      const new_list = this.state.npcs.map(x => x); //copy the array
+      new_list.splice(idx, 1, edited);
+      let doc = this.db.collection("characters").doc(edited.name);
+      await doc.set(edited, { merge: true });
+      console.log("updated ", edited.name, " in the cloud");
+      this.setState({ npcs: new_list, editing: false });
+    } catch (e) {
+      console.log("Errors updating ", this.state.editing.name, ": ", e);
+    }
   }
 
 };

@@ -4,8 +4,10 @@ import { EditForm } from "./editor.js";
 import { SignOnWidget } from "./SignOnWidget.js";
 import { CastList, InfoPanel } from "./Widgets.js";
 import { Switch, Route, useLocation } from "/web_modules/wouter-preact.js";
+import { store, myActions } from './Store.js';
+import { Provider, connect } from '/web_modules/unistore/full/preact.es.js';
 
-export class TheApp extends Component {
+class App extends Component {
   constructor() {
     super();
     this.state = { npcs: [], editing: false, user: null };
@@ -18,7 +20,7 @@ export class TheApp extends Component {
   componentDidMount() {
     // this.loadData();
     this.setupAuthentication();
-    this.loadFirestoreData();
+    this.props.loadFirestoreData();
   }
 
   async setupAuthentication() {
@@ -79,104 +81,7 @@ export class TheApp extends Component {
     });
   }
 
-  // Used for bootstrap, not used since moving to firebase
-  loadData() {
-    const url = this.props.src ? this.props.src : "npcs.json";
-    fetch(url)
-      .then(res => res.json())
-      .then(npcs => this.setState({ npcs }));
-  }
-
-  async loadFirestoreData() {
-    let querySnapShot = await this.db
-      .collection("characters")
-      .get({ source: "server" });
-    const characters = [];
-    querySnapShot.forEach(doc => characters.push(doc.data()));
-    this.setState({ npcs: characters });
-  }
-
-  pickName(names = this.state.names) {
-    let semi_rand = Date.now();
-    let list = semi_rand % 2 == 0 ? "boys" : "girls";
-    let index = semi_rand % 5;
-    return names[list][index];
-  }
-
-  async addCharacter() {
-    let { default: get_names } = await import(
-      "https://dotandimet.github.io/npc_names/names.js"
-    );
-    const names = get_names();
-    this.setState({ names });
-    let name = this.pickName(names);
-    let npcs_copy = this.state.npcs.map(x => x);
-    npcs_copy.push({ name });
-    this.setState({ npcs: npcs_copy }, () => this.editCharacter(name));
-  }
-
-  editCharacter(name) {
-    const editAtIndex = this.state.npcs.findIndex(npc => npc.name === name);
-    const editThis = Object.assign(
-      // fill in undefined fields in the character data itself:
-      {
-        bio: name,
-        powers: name,
-        division: "Soma",
-        type: "Freak",
-        grade: "Amber"
-      },
-      this.state.npcs[editAtIndex]
-    );
-    this.setState({ editing: editThis, editIndex: editAtIndex }, () => this.setLocation(`/edit/${name}`));
-  }
-
-  async updateFireStore() {
-    console.log("going to update the npc list to firebase...");
-    return await Promise.all(
-      this.state.npcs.map(npc => {
-        let doc = this.db.collection("characters").doc(npc.name);
-        return doc.set(npc, { merge: true });
-      })
-    )
-      .then(() => console.log("uploaded all NPCs"))
-      .catch(e => console.log("Errors uploading: ", e));
-  }
-
-  async abortEdit(e) {
-    e.preventDefault();
-    this.setState({ editing: false, editIndex: -1 });
-  }
-
-  async commitEdit(edit) {
-    if (!this.state.editing) {
-      return true;
-    }
-    try {
-      // console.log(edit);
-      let edited = { ...this.state.editing, ...edit };
-      // clean up undefined fields:
-      for (let k in edited) {
-        if (edited[k] === undefined) {
-          edited[k] = "";
-        }
-      }
-      // add info fields:
-      edited["last-edited-by"] = this.user.displayName;
-      edited["last-edited-at"] = new Date().toISOString();
-      const idx = this.state.editIndex;
-      const new_list = this.state.npcs.map(x => x); //copy the array
-      new_list.splice(idx, 1, edited);
-      let doc = this.db.collection("characters").doc(edited.name);
-      await doc.set(edited, { merge: true });
-      console.log("updated ", edited.name, " in the cloud");
-      this.setState({ npcs: new_list, editing: false });
-    } catch (e) {
-      console.log("Errors updating ", this.state.editing.name, ": ", e);
-    }
-  }
-
-  render(props, { npcs, user, ...state }) {
+  render({ npcs }, { user, ...state }) {
     return html`
       <nav class="level">
         <div class="level-left">
@@ -211,9 +116,6 @@ export class TheApp extends Component {
         <${Route} path="/">
               <${CastList}
                 npcs=${npcs}
-                editCharacter=${name => {
-                  this.editCharacter(name);
-                }}
               />
           <//>
           <${Route} path="/about/:section/:topic">
@@ -226,11 +128,12 @@ export class TheApp extends Component {
                 `; }}
           <//>
           <${Route} path="/edit/:name">
-              <h2 class="title">Editing</h2>
-              <${EditForm}
-                ...${state.editing}
-                closeAction=${e => this.commitEdit(e)}
-              />
+            ${(params) => {
+              const name = decodeURIComponent(params.name)
+              return html`
+              <h2 class="title">Editing ${name}</h2>
+              <${EditForm} ...${npcs.find(npc => npc.name === name) || { name }}
+              />` }}
           <//>
         </Switch>
         </div>
@@ -238,3 +141,7 @@ export class TheApp extends Component {
     `;
   }
 }
+
+const MyApp = connect(['npcs'], myActions)(App);
+
+export const TheApp = (props) => html`<${Provider} store=${store}><${MyApp} /><//>`;
