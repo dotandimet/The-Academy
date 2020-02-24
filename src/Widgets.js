@@ -27,7 +27,6 @@ class Box extends Component {
     bio,
     powers,
     image,
-    editCharacter
   }) {
     return html`
       <div class="tile is-parent is-4">
@@ -119,7 +118,6 @@ export class CastList extends Component {
       <h2 class="title is-capitalized" style="position: sticky">Cast</h2>
       <${NPCList}
         npcs=${props.npcs}
-        editCharacter=${props.editCharacter}
       />
     `;
   }

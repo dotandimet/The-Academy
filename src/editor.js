@@ -15,7 +15,9 @@ import { Mark } from "./Widgets.js";
 
 import { connect } from '/web_modules/unistore/full/preact.es.js';
 
-import { editActions } from './Store.js';
+import { myActions, editActions } from './Store.js';
+
+import { useLocation } from '/web_modules/wouter-preact.js';
 
 class RadioField extends Component {
   render({ name, value, values, labels, ...props }) {
@@ -77,38 +79,39 @@ class EditForm1 extends Component {
     this.state = { name, bio, powers, grade, division, type, image };
   }
 
-
-  onInput(e) {
-    const edit = { [e.target.name]: e.target.value };
-    this.setState(edit);
+  componentDidMount(props) {
+    this.props.loadFirestoreData().then( () => {
+    const character = this.props.npcs.find(npc => npc.name === this.props.name);
+    if (character) {
+      this.setState({ ...character })
+    }
+    } );
   }
 
-  onDone(callback) {
-    callback(this.state);
-  }
-
-  render({ closeAction }, { name, bio, powers, grade, division, type, image }) {
-    const updateAction = this.onInput.bind(this);
+  render({ commitEdit }, { name, bio, powers, grade, division, type, image }) {
+    const updateAction = (e) => this.setState({[e.target.name]: e.target.value });
+    const [ loc, setLocation ] = useLocation();
+    const commitAction = (e) => { e.preventDefault(); commitEdit(this.state); setLocation('/') };
     const division_labels = divisions.reduce((l, d) => {
       l[d] = html`
         <${Mark}
           icon=${d}
           title=${d}
-          color=${d === division ? "#999933" : "#3273dc"}
+          color=${(division && d === division) ? "#999933" : "#3273dc"}
         /><span class="is-size-7">${d}</span>
       `;
       return l;
     }, {});
-    const type_labels = division_types[division].reduce((l, d) => {
+    const type_labels = (division) ? division_types[division].reduce((l, d) => {
       l[d] = html`
         <${Mark}
           icon=${d}
           title=${d}
-          color=${d === type ? "#999933" : "#3273dc"}
+          color=${(type && d === type) ? "#999933" : "#3273dc"}
         /><span class="is-size-7">${d}</span>
       `;
       return l;
-    }, {});
+    }, {}) : [];
     const grade_labels = grades.reduce((l, d) => {
       l[d] = html`
         <${Mark} icon=${d} title=${d} /><span class="is-size-7">${d}</span>
@@ -116,7 +119,7 @@ class EditForm1 extends Component {
       return l;
     }, {});
     return html`
-      <form>
+      <form onSubmit=${commitAction}>
         <${EditField}
           label="Name"
           value=${name}
@@ -143,6 +146,7 @@ class EditForm1 extends Component {
           labels=${division_labels}
           onClick=${updateAction}
         />
+        ${division && html`
         <${RadioField}
           name="type"
           values=${division_types[division]}
@@ -150,6 +154,7 @@ class EditForm1 extends Component {
           labels=${type_labels}
           onClick=${updateAction}
         />
+        `}
         <${RadioField}
           name="grade"
           values=${grades}
@@ -157,17 +162,57 @@ class EditForm1 extends Component {
           labels=${grade_labels}
           onClick=${updateAction}
         />
-        <button
-          class="button"
-          onClick=${e => {
-            e.preventDefault();
-            this.onDone(closeAction);
-          }}
-        >
-          Done
-        </button>
+        <button class="button"
+        >Done</button>
       </form>
     `;
   }
 }
-export const EditForm = connect(editActions) ( EditForm1 );
+export const EditForm = connect(['npcs'], {...myActions, ...editActions}) ( EditForm1 );
+
+class NamePicker1 extends Component {
+  constructor(props) {
+    super(props);
+    this.state = { value: '' }
+  }
+
+  componentDidMount() {
+    if (Object.keys(this.props.names||{}).length != 2 || ! this.props.names['boys']  || this.props.names['boys'].length != 5)
+      this.props.loadNames();
+  }
+
+  render({names, loadNames}, { value }) {
+    if (Object.keys(names||{}).length != 2 || ! names['boys']  || names['boys'].length != 5)
+      return html`<h2>Loading...</h2>`; 
+    if (value === '' || (!names.boys.includes(value) && !names.girls.includes(value))) {
+      let semi_rand = Date.now();
+      let list = semi_rand % 2 == 0 ? "boys" : "girls";
+      let index = semi_rand % 5;
+      value = names[list][index];
+      this.setState({ value }); // persist
+    }
+    const onChange = (e) => this.setState({value: e.target.value});
+    const onSubmit = (e) => {
+            e.preventDefault();
+            const [ loc, setLocation ] = useLocation();
+            console.log("Name was: " + this.state.value);
+            setLocation(`/edit/${this.state.value}`);
+    }
+    const onReset = (e) => {
+        this.setState({value: ''})
+        e.preventDefault();
+        this.props.loadNames();
+    }
+    return html`<form onSubmit=${onSubmit}>
+    <label>Pick a Name
+    <select value=${value} onChange=${onChange}>
+    ${names.boys.map((name) => html`<option value=${name}>${name}</option>`)}
+    ${names.girls.map((name) => html`<option value=${name}>${name}</option>`)}
+    </select>
+    </label>
+    <button type="submit">Create</button>
+    <button onclick=${onReset}>Re-Roll</button>
+    </form>`
+  }
+}
+export const NamePicker = connect(['names'], { ...myActions })( NamePicker1 );

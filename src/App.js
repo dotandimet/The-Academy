@@ -1,9 +1,9 @@
 import { Component, html } from "./defs.js";
 
-import { EditForm } from "./editor.js";
+import { EditForm, NamePicker } from "./editor.js";
 import { SignOnWidget } from "./SignOnWidget.js";
 import { CastList, InfoPanel } from "./Widgets.js";
-import { Switch, Route, useLocation } from "/web_modules/wouter-preact.js";
+import { Link, Switch, Route, useLocation } from "/web_modules/wouter-preact.js";
 import { store, myActions } from './Store.js';
 import { Provider, connect } from '/web_modules/unistore/full/preact.es.js';
 
@@ -94,9 +94,11 @@ class App extends Component {
             </button>
           </div>
           <div class="level-item">
-            <button onclick=${() => this.addCharacter()}>
+            <${Link} href="/edit">
+            <a class="button">
               Add New Character
-            </button>
+            </a>
+            <//>
           </div>
         </div>
       </nav>
@@ -126,6 +128,9 @@ class App extends Component {
                 topic=${params.topic}
               />
                 `; }}
+          <//>
+          <${Route} path="/edit">
+          <${NamePicker} />
           <//>
           <${Route} path="/edit/:name">
             ${(params) => {

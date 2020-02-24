@@ -1,6 +1,6 @@
 import { createStore } from '/web_modules/unistore/full/preact.es.js';
 
-export let store = createStore( { npcs: [], editing: false, user: null } )
+export let store = createStore( { npcs: [], user: null, names: {'boys': ['Jayden'], 'girls': ['Holly']} } )
 
 export let myActions = {
   // Used for bootstrap, not used since moving to firebase
@@ -10,7 +10,9 @@ export let myActions = {
       .then(res => res.json())
       .then(npcs => store.setState({ npcs }));
   },
-  async loadFirestoreData(state) {
+  async loadFirestoreData(state, force=false) {
+    if (state.npcs.length > 0 && ! force)
+      return state;
     let querySnapShot = await firebase.firestore()
       .collection("characters")
       .get({ source: "server" });
@@ -29,60 +31,26 @@ export let myActions = {
     )
       .then(() => console.log("uploaded all NPCs"))
       .catch(e => console.log("Errors uploading: ", e));
+  },
+
+  async loadNames(state) {
+    let { default: get_names } = await import(
+      "https://dotandimet.github.io/npc_names/names.js"
+    );
+    const names = get_names();
+    store.setState({ names });
   }
 
 };
 
 export let editActions = {
-  editCharacter(state, name) {
-    const editAtIndex = state.npcs.findIndex(npc => npc.name === name);
-    const editThis = Object.assign(
-      // fill in undefined fields in the character data itself:
-      {
-        bio: name,
-        powers: name,
-        division: "Soma",
-        type: "Freak",
-        grade: "Amber"
-      },
-      state.npcs[editAtIndex]
-    );
-    // store.setState({ editing: editThis, editIndex: editAtIndex });
-    return { editing: editThis, editIndex: editAtIndex };
-  },
 
-  pickName(state, names = state.names) {
-    let semi_rand = Date.now();
-    let list = semi_rand % 2 == 0 ? "boys" : "girls";
-    let index = semi_rand % 5;
-    return names[list][index];
-  },
-
-  async addCharacter() {
-    let { default: get_names } = await import(
-      "https://dotandimet.github.io/npc_names/names.js"
-    );
-    const names = get_names();
-    this.setState({ names });
-    let name = this.pickName(names);
-    let npcs_copy = this.state.npcs.map(x => x);
-    npcs_copy.push({ name });
-    this.setState({ npcs: npcs_copy }, () => this.setLocation(`/edit/${name}`));
-  },
-
-
-  async abortEdit(e) {
-    e.preventDefault();
-    this.setState({ editing: false, editIndex: -1 });
-  },
-
-  async commitEdit(edit) {
-    if (!this.state.editing) {
-      return true;
-    }
+  async commitEdit(state, edit) {
     try {
       // console.log(edit);
-      let edited = { ...this.state.editing, ...edit };
+      let editIndex = state.npcs.findIndex((npc)=>npc.name === edit.name)
+      let editing = (editIndex > -1) ? state.npcs[editIndex] : {}
+      let edited = { ...editing, ...edit };
       // clean up undefined fields:
       for (let k in edited) {
         if (edited[k] === undefined) {
@@ -90,17 +58,19 @@ export let editActions = {
         }
       }
       // add info fields:
-      edited["last-edited-by"] = this.user.displayName;
+//      edited["last-edited-by"] = state.user.displayName;
       edited["last-edited-at"] = new Date().toISOString();
-      const idx = this.state.editIndex;
-      const new_list = this.state.npcs.map(x => x); //copy the array
-      new_list.splice(idx, 1, edited);
-      let doc = this.db.collection("characters").doc(edited.name);
+      const new_list = state.npcs.map(x => x); //copy the array
+      if (editIndex > -1)
+        new_list.splice(editIndex, 1, edited);
+      else
+        new_list.push(edited);
+      let doc = firebase.firestore().collection("characters").doc(edited.name);
       await doc.set(edited, { merge: true });
       console.log("updated ", edited.name, " in the cloud");
-      this.setState({ npcs: new_list, editing: false });
+      store.setState({ npcs: new_list });
     } catch (e) {
-      console.log("Errors updating ", this.state.editing.name, ": ", e);
+      console.log("Errors updating ", edit.name, ": ", e);
     }
   }
 
