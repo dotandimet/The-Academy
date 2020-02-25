@@ -77,20 +77,23 @@ ${value}</textarea
 }
 
 class EditImage extends Component {
-  render({ image }) {
-    const getFile = e => console.log(e.target.files[0].name);
+  render({ image, img, onInput, uploadImage }) {
+    const uploadFile = e => uploadImage(e.target.files[0]);
+    if (img !== null) {
+      onInput({ target: { name: "image", value: img } });
+    }
     return html`
       <div class="field">
         <div class="file">
           <label class="file-label">
             <figure class="image is-128x128" style="overflow: hidden">
-              <img src="/${image}" alt="Image" />
+              <img src="/${img || image}" alt="Image" />
             </figure>
             <input
               class="file-input"
               type="file"
               name="resume"
-              onChange="${getFile}"
+              onChange="${uploadFile}"
             />
             <span class="file-cta">
               <span class="file-label">
@@ -122,7 +125,10 @@ class EditForm1 extends Component {
     });
   }
 
-  render({ commitEdit }, { name, bio, powers, grade, division, type, image }) {
+  render(
+    { commitEdit, uploadImage, img },
+    { name, bio, powers, grade, division, type, image }
+  ) {
     const updateAction = e =>
       this.setState({ [e.target.name]: e.target.value });
     const [loc, setLocation] = useLocation();
@@ -148,7 +154,12 @@ class EditForm1 extends Component {
           name="powers"
           onInput=${updateAction}
         />
-        <${EditImage} image=${image} />
+        <${EditImage}
+          image=${image}
+          onInput=${updateAction}
+          uploadImage=${uploadImage}
+          img=${img}
+        />
         <${EditField}
           big="true"
           label="Bio"
@@ -185,7 +196,7 @@ class EditForm1 extends Component {
     `;
   }
 }
-export const EditForm = connect(["npcs"], myActions)(EditForm1);
+export const EditForm = connect(["npcs", "img"], myActions)(EditForm1);
 
 class NamePicker1 extends Component {
   constructor(props) {

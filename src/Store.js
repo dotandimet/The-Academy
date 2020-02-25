@@ -3,7 +3,8 @@ import { createStore } from "/web_modules/unistore/full/preact.es.js";
 export let store = createStore({
   npcs: [],
   user: null,
-  names: null
+  names: null,
+  img: null
 });
 
 export let myActions = {
@@ -149,5 +150,20 @@ export let myActions = {
         store.setState({ user: null });
       }
     });
+  },
+
+  async uploadImage(state, file, callback) {
+    try {
+      const storage = firebase.storage();
+      const storageRef = storage.ref();
+      const imgRef = storageRef.child(`images/${file.name}`);
+      await imgRef.put(file);
+      const url = await imgRef.getDownloadURL();
+      store.setState({ img: url });
+    } catch (e) {
+      console.log("Error in upload: ", e);
+    }
   }
 };
+
+store.subscribe(e => console.log(e));
