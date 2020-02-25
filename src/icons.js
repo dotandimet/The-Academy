@@ -353,6 +353,14 @@ export const svg_icons = (size, color) => {
     gold: () =>
       html`
         <${Icon} width=${size} height=${size} color="#d4af37"><${Ribbon} /><//>
+      `,
+    Star: () =>
+      html`
+        <${Icon} width=${size} height=${size} color=${color}><${Star} /><//>
+      `,
+    BlueStar: () =>
+      html`
+        <${Icon} width=${size} height=${size} color="#1f45fc"><${Star} /><//>
       `
   };
 };

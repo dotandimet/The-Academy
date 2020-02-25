@@ -26,7 +26,9 @@ class Box extends Component {
     type = "Freak",
     bio,
     powers,
-    image
+    image,
+    selected = false,
+    toggleSelect
   }) {
     return html`
       <div class="tile is-parent is-4">
@@ -74,6 +76,13 @@ class Box extends Component {
                       <${icons["Edit"]} />
                     </a>
                   <//>
+                  <a
+                    title=${selected ? "Selected" : "Select"}
+                    onClick=${e => toggleSelect(name)}
+                    class="button is-small level-item"
+                  >
+                    <${selected ? icons["BlueStar"] : icons["Star"]} />
+                  </a>
                 </div>
               </nav>
             </div>
@@ -117,7 +126,7 @@ export class CastList extends Component {
   render(props, state) {
     return html`
       <h2 class="title is-capitalized" style="position: sticky">Cast</h2>
-      <${NPCList} npcs=${props.npcs} />
+      <${NPCList} npcs=${props.npcs} ...${props} />
     `;
   }
 }

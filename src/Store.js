@@ -1,6 +1,10 @@
 import { createStore } from "/web_modules/unistore/full/preact.es.js";
 
-export let store = createStore({ npcs: [], user: null, names: null });
+export let store = createStore({
+  npcs: [],
+  user: null,
+  names: null
+});
 
 export let myActions = {
   // Used for bootstrap, not used since moving to firebase
@@ -70,6 +74,25 @@ export let myActions = {
       console.log("Errors updating ", edit.name, ": ", e);
     }
   },
+
+  toggleSelect(state, name) {
+    return {
+      npcs: state.npcs.map(x => {
+        if (x.name === name) x.selected = !(x.selected || false);
+        return x;
+      })
+    };
+  },
+
+  clear(state) {
+    return {
+      npcs: state.npcs.map(x => {
+        x.selected = false;
+        return x;
+      })
+    };
+  },
+
   async setupAuthentication(state) {
     try {
       const result = await firebase.auth().getRedirectResult();

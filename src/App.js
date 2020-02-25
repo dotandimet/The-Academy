@@ -19,7 +19,7 @@ class App extends Component {
     this.props.loadFirestoreData();
   }
 
-  render({ user, npcs }) {
+  render({ user, npcs, ...props }) {
     return html`
       <nav class="level">
         <div class="level-left">
@@ -37,6 +37,9 @@ class App extends Component {
               Add New Character
             </a>
             <//>
+          </div>
+          <div class="level-item">
+            ${npcs.filter(x => x.selected).length} Selected
           </div>
         </div>
       </nav>
@@ -56,6 +59,7 @@ class App extends Component {
         <${Route} path="/">
               <${CastList}
                 npcs=${npcs}
+                ...${props}
               />
           <//>
           <${Route} path="/about/:section/:topic">
@@ -65,6 +69,7 @@ class App extends Component {
                   npcs=${npcs}
                   section=${params.section}
                   topic=${params.topic}
+                  ...${props}
                 />
               `;
             }}
