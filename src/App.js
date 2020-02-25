@@ -3,19 +3,21 @@ import { Component, html } from "./defs.js";
 import { EditForm, NamePicker } from "./editor.js";
 import { SignOnWidget } from "./SignOnWidget.js";
 import { CastList, InfoPanel } from "./Widgets.js";
-import { Link, Switch, Route, useLocation } from "/web_modules/wouter-preact.js";
-import { store, myActions } from './Store.js';
-import { Provider, connect } from '/web_modules/unistore/full/preact.es.js';
+import {
+  Link,
+  Switch,
+  Route,
+  useLocation
+} from "/web_modules/wouter-preact.js";
+import { store, myActions } from "./Store.js";
+import { Provider, connect } from "/web_modules/unistore/full/preact.es.js";
 
 class App extends Component {
-
   componentDidMount() {
     // this.loadData();
     this.props.setupAuthentication();
     this.props.loadFirestoreData();
   }
-
-
 
   render({ user, npcs }) {
     return html`
@@ -57,24 +59,29 @@ class App extends Component {
               />
           <//>
           <${Route} path="/about/:section/:topic">
-            ${(params) => { return html`
-              <${InfoPanel}
-                npcs=${npcs}
-                section=${params.section}
-                topic=${params.topic}
-              />
-                `; }}
+            ${params => {
+              return html`
+                <${InfoPanel}
+                  npcs=${npcs}
+                  section=${params.section}
+                  topic=${params.topic}
+                />
+              `;
+            }}
           <//>
           <${Route} path="/edit">
           <${NamePicker} />
           <//>
           <${Route} path="/edit/:name">
-            ${(params) => {
-              const name = decodeURIComponent(params.name)
+            ${params => {
+              const name = decodeURIComponent(params.name);
               return html`
-              <h2 class="title">Editing ${name}</h2>
-              <${EditForm} ...${npcs.find(npc => npc.name === name) || { name }}
-              />` }}
+                <h2 class="title">Editing ${name}</h2>
+                <${EditForm}
+                  ...${npcs.find(npc => npc.name === name) || { name }}
+                />
+              `;
+            }}
           <//>
         </Switch>
         </div>
@@ -83,6 +90,9 @@ class App extends Component {
   }
 }
 
-const MyApp = connect(['npcs', 'user'], myActions)(App);
+const MyApp = connect(["npcs", "user"], myActions)(App);
 
-export const TheApp = (props) => html`<${Provider} store=${store}><${MyApp} /><//>`;
+export const TheApp = props =>
+  html`
+    <${Provider} store=${store}><${MyApp} /><//>
+  `;

@@ -26,7 +26,7 @@ class Box extends Component {
     type = "Freak",
     bio,
     powers,
-    image,
+    image
   }) {
     return html`
       <div class="tile is-parent is-4">
@@ -46,32 +46,33 @@ class Box extends Component {
               <nav class="is-mobile">
                 <div class="buttons has-addons">
                   <${Link} href="/about/grade/${grade}">
-                    <a 
-                    title=${"Grade: " + grade}
-        class="button is-small level-item" >
-                   <${icons[grade]} />
-                  </a>
+                    <a
+                      title=${"Grade: " + grade}
+                      class="button is-small level-item"
+                    >
+                      <${icons[grade]} />
+                    </a>
                   <//>
                   <${Link} href="/about/division/${division}">
-                   <a 
-                    title=${"Division: " + division}
-        class="button is-small level-item" >
-                   <${icons[division]} />
+                    <a
+                      title=${"Division: " + division}
+                      class="button is-small level-item"
+                    >
+                      <${icons[division]} />
                     </a>
                   <//>
                   <${Link} href="/about/type/${type}">
-                  <a
-                    title=${"Type: " + type}
-                  class="button is-small level-item" >
-                   <${icons[type]} />
-                  </a>
+                    <a
+                      title=${"Type: " + type}
+                      class="button is-small level-item"
+                    >
+                      <${icons[type]} />
+                    </a>
                   <//>
                   <${Link} href="/edit/${name}">
-                  <a
-                  title="Edit Me"
-                  class="button is-small level-item" >
-                  <${icons['Edit']} />
-                  </a>
+                    <a title="Edit Me" class="button is-small level-item">
+                      <${icons["Edit"]} />
+                    </a>
                   <//>
                 </div>
               </nav>
@@ -116,9 +117,7 @@ export class CastList extends Component {
   render(props, state) {
     return html`
       <h2 class="title is-capitalized" style="position: sticky">Cast</h2>
-      <${NPCList}
-        npcs=${props.npcs}
-      />
+      <${NPCList} npcs=${props.npcs} />
     `;
   }
 }

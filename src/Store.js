@@ -1,6 +1,6 @@
-import { createStore } from '/web_modules/unistore/full/preact.es.js';
+import { createStore } from "/web_modules/unistore/full/preact.es.js";
 
-export let store = createStore( { npcs: [], user: null, names: null } )
+export let store = createStore({ npcs: [], user: null, names: null });
 
 export let myActions = {
   // Used for bootstrap, not used since moving to firebase
@@ -10,10 +10,10 @@ export let myActions = {
       .then(res => res.json())
       .then(npcs => store.setState({ npcs }));
   },
-  async loadFirestoreData(state, force=false) {
-    if (state.npcs.length > 0 && ! force)
-      return state;
-    let querySnapShot = await firebase.firestore()
+  async loadFirestoreData(state, force = false) {
+    if (state.npcs.length > 0 && !force) return state;
+    let querySnapShot = await firebase
+      .firestore()
       .collection("characters")
       .get({ source: "server" });
     const characters = [];
@@ -44,8 +44,8 @@ export let myActions = {
   async commitEdit(state, edit) {
     try {
       // console.log(edit);
-      let editIndex = state.npcs.findIndex((npc)=>npc.name === edit.name)
-      let editing = (editIndex > -1) ? state.npcs[editIndex] : {}
+      let editIndex = state.npcs.findIndex(npc => npc.name === edit.name);
+      let editing = editIndex > -1 ? state.npcs[editIndex] : {};
       let edited = { ...editing, ...edit };
       // clean up undefined fields:
       for (let k in edited) {
@@ -57,11 +57,12 @@ export let myActions = {
       edited["last-edited-by"] = state.user.displayName;
       edited["last-edited-at"] = new Date().toISOString();
       const new_list = state.npcs.map(x => x); //copy the array
-      if (editIndex > -1)
-        new_list.splice(editIndex, 1, edited);
-      else
-        new_list.push(edited);
-      let doc = firebase.firestore().collection("characters").doc(edited.name);
+      if (editIndex > -1) new_list.splice(editIndex, 1, edited);
+      else new_list.push(edited);
+      let doc = firebase
+        .firestore()
+        .collection("characters")
+        .doc(edited.name);
       await doc.set(edited, { merge: true });
       console.log("updated ", edited.name, " in the cloud");
       store.setState({ npcs: new_list });
@@ -126,5 +127,4 @@ export let myActions = {
       }
     });
   }
-
 };
