@@ -152,7 +152,7 @@ export let myActions = {
     });
   },
 
-  async uploadImage(state, file, callback) {
+  async uploadImage(state, file) {
     try {
       const storage = firebase.storage();
       const storageRef = storage.ref();
@@ -163,6 +163,9 @@ export let myActions = {
     } catch (e) {
       console.log("Error in upload: ", e);
     }
+  },
+  resetImage(state) {
+    return { img: null };
   }
 };
 

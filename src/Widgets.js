@@ -30,13 +30,21 @@ class Box extends Component {
     selected = false,
     toggleSelect
   }) {
+    const path_prefix =
+      (image || "").startsWith("/") || (image || "").startsWith("http")
+        ? ""
+        : "/";
     return html`
       <div class="tile is-parent is-4">
         <div class="tile is-child box animated fadeInDown" key=${name}>
           <article class="media">
             <div class="media-left">
               <figure class="image is-128x128" style="overflow: hidden">
-                <img src="/${image}" alt="Image" class="is-rounded" />
+                <img
+                  src="${path_prefix}${image}"
+                  alt="Image"
+                  class="is-rounded"
+                />
               </figure>
             </div>
             <div class="media-content">

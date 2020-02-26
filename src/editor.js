@@ -77,23 +77,24 @@ ${value}</textarea
 }
 
 class EditImage extends Component {
-  render({ image, img, onInput, uploadImage }) {
-    const uploadFile = e => uploadImage(e.target.files[0]);
-    if (img !== null) {
-      onInput({ target: { name: "image", value: img } });
-    }
+  render({ image, uploadImage }) {
+    const onChange = e => uploadImage(e.target.files[0]);
+    const path_prefix =
+      (image || "").startsWith("/") || (image || "").startsWith("http")
+        ? ""
+        : "/";
     return html`
       <div class="field">
         <div class="file">
           <label class="file-label">
             <figure class="image is-128x128" style="overflow: hidden">
-              <img src="/${img || image}" alt="Image" />
+              <img src="${path_prefix}${image}" alt="Image" />
             </figure>
             <input
               class="file-input"
               type="file"
               name="resume"
-              onChange="${uploadFile}"
+              onChange="${onChange}"
             />
             <span class="file-cta">
               <span class="file-label">
@@ -115,6 +116,7 @@ class EditForm1 extends Component {
   }
 
   componentDidMount(props) {
+    this.props.resetImage();
     this.props.loadFirestoreData().then(() => {
       const character = this.props.npcs.find(
         npc => npc.name === this.props.name
@@ -129,8 +131,13 @@ class EditForm1 extends Component {
     { commitEdit, uploadImage, img },
     { name, bio, powers, grade, division, type, image }
   ) {
-    const updateAction = e =>
-      this.setState({ [e.target.name]: e.target.value });
+    if (img !== null && img !== image) {
+      image = img;
+      this.setState({ image: img });
+    }
+    const setState = (n, v) => this.setState({ [n]: v });
+    const updateAction = e => setState(e.target.name, e.target.value);
+    const updateImage = async e => uploadImage(e.target.files[0]);
     const [loc, setLocation] = useLocation();
     const commitAction = e => {
       e.preventDefault();
@@ -154,12 +161,7 @@ class EditForm1 extends Component {
           name="powers"
           onInput=${updateAction}
         />
-        <${EditImage}
-          image=${image}
-          onInput=${updateAction}
-          uploadImage=${uploadImage}
-          img=${img}
-        />
+        <${EditImage} image=${image} uploadImage=${uploadImage} />
         <${EditField}
           big="true"
           label="Bio"
@@ -196,7 +198,10 @@ class EditForm1 extends Component {
     `;
   }
 }
-export const EditForm = connect(["npcs", "img"], myActions)(EditForm1);
+export const EditForm = connect(
+  ["npcs", "img", "loaded"],
+  myActions
+)(EditForm1);
 
 class NamePicker1 extends Component {
   constructor(props) {
