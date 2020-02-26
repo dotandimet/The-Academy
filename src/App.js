@@ -2,7 +2,7 @@ import { Component, html } from "./defs.js";
 
 import { EditForm, NamePicker } from "./editor.js";
 import { SignOnWidget } from "./SignOnWidget.js";
-import { CastList, InfoPanel } from "./Widgets.js";
+import { CastList, InfoPanel, NavBar } from "./Widgets.js";
 import { Link, Switch, Route } from "/web_modules/wouter-preact.js";
 import { store, myActions } from "./Store.js";
 import { Provider, connect } from "/web_modules/unistore/full/preact.es.js";
@@ -16,28 +16,22 @@ class App extends Component {
 
   render({ user, npcs, ...props }) {
     return html`
-      <nav class="level">
-        <div class="level-left">
-          <div class="level-item">
-            <${SignOnWidget} user=${user} />
+      <${NavBar}>
+          <div class="navbar-item">
+          <${SignOnWidget} user=${user} />
           </div>
-          <div class="level-item">
-            <button onClick=${() => this.updateFireStore()} class="button">
+            <a onClick=${() => this.updateFireStore()} class="navbar-item">
               Upload to Cloud
-            </button>
-          </div>
-          <div class="level-item">
+            </a>
             <${Link} href="/edit">
-            <a class="button">
+            <a class="navbar-item">
               Add New Character
             </a>
             <//>
-          </div>
-          <div class="level-item">
+          <a class="navbar-item">
             ${npcs.filter(x => x.selected).length} Selected
-          </div>
-        </div>
-      </nav>
+          </a>
+      <//>
       <section class="section">
         <div class="container">
           <h1 class="title">

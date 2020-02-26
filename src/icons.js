@@ -358,9 +358,9 @@ export const svg_icons = (size, color) => {
       html`
         <${Icon} width=${size} height=${size} color=${color}><${Star} /><//>
       `,
-    BlueStar: () =>
+    HotStar: () =>
       html`
-        <${Icon} width=${size} height=${size} color="#1f45fc"><${Star} /><//>
+        <${Icon} width=${size} height=${size} color="#cccc66"><${Star} /><//>
       `
   };
 };

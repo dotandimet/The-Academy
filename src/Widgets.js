@@ -1,22 +1,8 @@
-import { Component, html } from "./defs.js";
+import { Component, html, toChildArray } from "./defs.js";
 import { Link } from "/web_modules/wouter-preact.js";
 import { svg_icons } from "./icons.js";
 
-const icons = svg_icons("0.75rem", "#363636");
-
-export class Mark extends Component {
-  render({ icon, color, ...props }) {
-    return html`
-      <button
-        class="button is-small level-item"
-        style="${color ? "color:" + color + ";" : ""}"
-        ...${props}
-      >
-        <${icons[icon]} />
-      </button>
-    `;
-  }
-}
+const icons = svg_icons("1.25rem", "#363636");
 
 class Box extends Component {
   render({
@@ -89,7 +75,7 @@ class Box extends Component {
                     onClick=${e => toggleSelect(name)}
                     class="button is-small level-item"
                   >
-                    <${selected ? icons["BlueStar"] : icons["Star"]} />
+                    <${selected ? icons["HotStar"] : icons["Star"]} />
                   </a>
                 </div>
               </nav>
@@ -135,6 +121,50 @@ export class CastList extends Component {
     return html`
       <h2 class="title is-capitalized" style="position: sticky">Cast</h2>
       <${NPCList} npcs=${props.npcs} ...${props} />
+    `;
+  }
+}
+
+export class NavBar extends Component {
+  constructor(props) {
+    super(props);
+    this.state = { active: false };
+  }
+  render(props, { active }) {
+    return html`
+      <nav class="navbar" role="navigation" aria-label="main navigation">
+        <div class="navbar-brand">
+          <a class="navbar-item" href="/">
+            The Academy
+          </a>
+
+          <a
+            role="button"
+            class="navbar-burger burger ${active ? "is-active" : ""}"
+            aria-label="menu"
+            aria-expanded="false"
+            data-target="navbarBasicExample"
+            onClick=${e => this.setState({ active: !active })}
+          >
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+          </a>
+        </div>
+
+        <div
+          id="navbarBasicExample"
+          class="navbar-menu ${active ? "is-active" : ""}"
+        >
+          <div class="navbar-start">
+            ${toChildArray(this.props.children).map(
+              x => html`
+                ${x}
+              `
+            )}
+          </div>
+        </div>
+      </nav>
     `;
   }
 }
