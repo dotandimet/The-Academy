@@ -1,4 +1,4 @@
-import { Component, render, html, h } from "./defs.js";
+import { render, h } from "./defs.js";
 
 import { firebaseConfig } from "./firebase_config.js";
 

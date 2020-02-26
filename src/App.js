@@ -3,12 +3,7 @@ import { Component, html } from "./defs.js";
 import { EditForm, NamePicker } from "./editor.js";
 import { SignOnWidget } from "./SignOnWidget.js";
 import { CastList, InfoPanel } from "./Widgets.js";
-import {
-  Link,
-  Switch,
-  Route,
-  useLocation
-} from "/web_modules/wouter-preact.js";
+import { Link, Switch, Route } from "/web_modules/wouter-preact.js";
 import { store, myActions } from "./Store.js";
 import { Provider, connect } from "/web_modules/unistore/full/preact.es.js";
 
@@ -97,7 +92,7 @@ class App extends Component {
 
 const MyApp = connect(["npcs", "user"], myActions)(App);
 
-export const TheApp = props =>
+export const TheApp = () =>
   html`
     <${Provider} store=${store}><${MyApp} /><//>
   `;

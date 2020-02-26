@@ -1,5 +1,5 @@
-import { Component, html, toChildArray } from "./defs.js";
-import { Link, useLocation } from "/web_modules/wouter-preact.js";
+import { Component, html } from "./defs.js";
+import { Link } from "/web_modules/wouter-preact.js";
 import { svg_icons } from "./icons.js";
 
 const icons = svg_icons("0.75rem", "#363636");
@@ -102,7 +102,7 @@ class Box extends Component {
 }
 
 export class NPCList extends Component {
-  render({ npcs, ...props }, state) {
+  render({ npcs, ...props }) {
     return html`
       <div class="tile is-ancestor" style="flex-wrap: wrap">
         ${npcs.map(
@@ -117,7 +117,7 @@ export class NPCList extends Component {
 }
 
 export class InfoPanel extends Component {
-  render({ section, topic, npcs, ...props }, state) {
+  render({ section, topic, npcs, ...props }) {
     return html`
       <h2 class="title is-capitalized">
         ${section}: ${topic}
@@ -131,7 +131,7 @@ export class InfoPanel extends Component {
 }
 
 export class CastList extends Component {
-  render(props, state) {
+  render(props) {
     return html`
       <h2 class="title is-capitalized" style="position: sticky">Cast</h2>
       <${NPCList} npcs=${props.npcs} ...${props} />

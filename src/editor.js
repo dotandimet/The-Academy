@@ -1,17 +1,8 @@
-import {
-  Component,
-  render,
-  html,
-  divisions,
-  division_types,
-  grades
-} from "./defs.js";
+import { Component, html, divisions, division_types, grades } from "./defs.js";
 
 import { svg_icons } from "./icons.js";
 
 const icons = svg_icons("0.75rem", "#363636");
-
-import { Mark } from "./Widgets.js";
 
 import { connect } from "/web_modules/unistore/full/preact.es.js";
 
@@ -112,17 +103,27 @@ class EditForm1 extends Component {
   constructor(props) {
     super(props);
     const { name, bio, powers, grade, division, type, image } = props;
-    this.state = { name, bio, powers, grade, division, type, image };
+    this.state = {
+      name,
+      bio,
+      powers,
+      grade,
+      division,
+      type,
+      image
+    };
   }
 
-  componentDidMount(props) {
+  componentDidMount() {
     this.props.resetImage();
     this.props.loadFirestoreData().then(() => {
       const character = this.props.npcs.find(
         npc => npc.name === this.props.name
       );
       if (character) {
-        this.setState({ ...character });
+        this.setState({
+          ...character
+        });
       }
     });
   }
@@ -133,11 +134,15 @@ class EditForm1 extends Component {
   ) {
     if (img !== null && img !== image) {
       image = img;
-      this.setState({ image: img });
+      this.setState({
+        image: img
+      });
     }
-    const setState = (n, v) => this.setState({ [n]: v });
+    const setState = (n, v) =>
+      this.setState({
+        [n]: v
+      });
     const updateAction = e => setState(e.target.name, e.target.value);
-    const updateImage = async e => uploadImage(e.target.files[0]);
     const [loc, setLocation] = useLocation();
     const commitAction = e => {
       e.preventDefault();
@@ -206,7 +211,9 @@ export const EditForm = connect(
 class NamePicker1 extends Component {
   constructor(props) {
     super(props);
-    this.state = { value: "" };
+    this.state = {
+      value: ""
+    };
   }
 
   componentDidMount() {
@@ -218,7 +225,7 @@ class NamePicker1 extends Component {
       this.props.loadNames();
   }
 
-  render({ names, loadNames }, { value }) {
+  render({ names }, { value }) {
     if (
       Object.keys(names || {}).length != 2 ||
       !names["boys"] ||
@@ -235,9 +242,14 @@ class NamePicker1 extends Component {
       let list = semi_rand % 2 == 0 ? "boys" : "girls";
       let index = semi_rand % 5;
       value = names[list][index];
-      this.setState({ value }); // persist
+      this.setState({
+        value
+      }); // persist
     }
-    const onChange = e => this.setState({ value: e.target.value });
+    const onChange = e =>
+      this.setState({
+        value: e.target.value
+      });
     const onSubmit = e => {
       e.preventDefault();
       const [loc, setLocation] = useLocation();
@@ -245,7 +257,9 @@ class NamePicker1 extends Component {
       setLocation(`/edit/${this.state.value}`);
     };
     const onReset = e => {
-      this.setState({ value: "" });
+      this.setState({
+        value: ""
+      });
       e.preventDefault();
       this.props.loadNames();
     };
