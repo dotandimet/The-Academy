@@ -14,6 +14,8 @@ class Box extends Component {
     powers,
     image,
     selected = false,
+    affiliation,
+    role,
     toggleSelect
   }) {
     const path_prefix =
@@ -41,6 +43,20 @@ class Box extends Component {
               </div>
               <nav class="is-mobile">
                 <div class="buttons has-addons">
+                  <${Link} href="/about/affiliation/${affiliation}">
+                    <a
+                      title=${"Affiliation: " + affiliation}
+                      class="button is-small level-item"
+                      >${affiliation}
+                    </a>
+                  <//>
+                  <${Link} href="/about/role/${role}">
+                    <a
+                      title=${"Affiliation: " + role}
+                      class="button is-small level-item"
+                      >${role}
+                    </a>
+                  <//>
                   <${Link} href="/about/grade/${grade}">
                     <a
                       title=${"Grade: " + grade}

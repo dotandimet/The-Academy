@@ -1,6 +1,6 @@
 import { Component, html } from "./defs.js";
 
-import { EditForm, NamePicker } from "./editor.js";
+import { EditForm, NamePicker, SectionTopic } from "./editor.js";
 import { SignOnWidget } from "./SignOnWidget.js";
 import { CastList, InfoPanel, NavBar } from "./Widgets.js";
 import { Link, Switch, Route } from "/web_modules/wouter-preact.js";
@@ -20,7 +20,7 @@ class App extends Component {
           <div class="navbar-item">
           <${SignOnWidget} user=${user} />
           </div>
-            <a onClick=${() => this.updateFireStore()} class="navbar-item">
+            <a onClick=${() => props.updateFireStore()} class="navbar-item">
               Upload to Cloud
             </a>
             <${Link} href="/edit">
@@ -28,9 +28,21 @@ class App extends Component {
               Add New Character
             </a>
             <//>
-          <a class="navbar-item">
+          <div class="navbar-item has-dropdown is-hoverable">
+            <a class="navbar-link">
             ${npcs.filter(x => x.selected).length} Selected
-          </a>
+            </a>
+           <div class="navbar-dropdown">
+            <a class="navbar-item" onClick=${() => props.clear()}>
+              Clear Selection
+            </a>
+            <${Link} href="/selection/edit">
+            <a class="navbar-item">
+              Tag selected characters
+            </a>
+            <//>
+            </div>
+          </div>
       <//>
       <section class="section">
         <div class="container">
@@ -56,8 +68,8 @@ class App extends Component {
               return html`
                 <${InfoPanel}
                   npcs=${npcs}
-                  section=${params.section}
-                  topic=${params.topic}
+                  section=${decodeURIComponent(params.section)}
+                  topic=${decodeURIComponent(params.topic)}
                   ...${props}
                 />
               `;
@@ -77,6 +89,7 @@ class App extends Component {
               `;
             }}
           <//>
+         <${Route} path="/selection/edit" component=${SectionTopic} />
         </Switch>
         </div>
       </section>

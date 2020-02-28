@@ -102,7 +102,17 @@ class EditImage extends Component {
 class EditForm1 extends Component {
   constructor(props) {
     super(props);
-    const { name, bio, powers, grade, division, type, image } = props;
+    const {
+      name,
+      bio,
+      powers,
+      grade,
+      division,
+      type,
+      image,
+      affiliation,
+      role
+    } = props;
     this.state = {
       name,
       bio,
@@ -110,7 +120,9 @@ class EditForm1 extends Component {
       grade,
       division,
       type,
-      image
+      image,
+      affiliation,
+      role
     };
   }
 
@@ -130,7 +142,7 @@ class EditForm1 extends Component {
 
   render(
     { commitEdit, uploadImage, img },
-    { name, bio, powers, grade, division, type, image }
+    { name, bio, powers, grade, division, type, image, affiliation, role }
   ) {
     if (img !== null && img !== image) {
       image = img;
@@ -138,11 +150,8 @@ class EditForm1 extends Component {
         image: img
       });
     }
-    const setState = (n, v) =>
-      this.setState({
-        [n]: v
-      });
-    const updateAction = e => setState(e.target.name, e.target.value);
+    const updateAction = e =>
+      this.setState({ [e.target.name]: e.target.value });
     const [loc, setLocation] = useLocation();
     const commitAction = e => {
       e.preventDefault();
@@ -197,6 +206,18 @@ class EditForm1 extends Component {
           value=${grade}
           labeler=${label_func}
           onClick=${updateAction}
+        />
+        <${EditField}
+          label="Affilication"
+          value=${affiliation}
+          name="affiliation"
+          onInput=${updateAction}
+        />
+        <${EditField}
+          label="Role"
+          value=${role}
+          name="role"
+          onInput=${updateAction}
         />
         <button class="button">Done</button>
       </form>
@@ -289,3 +310,43 @@ class NamePicker1 extends Component {
   }
 }
 export const NamePicker = connect(["names"], myActions)(NamePicker1);
+
+class SectionTopic1 extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      name: "",
+      value: ""
+    };
+  }
+  render({}, { name, value }) {
+    const updateAction = e =>
+      this.setState({ [e.target.name]: e.target.value });
+    const [loc, setLocation] = useLocation();
+    const commitAction = e => {
+      e.preventDefault();
+      this.props.addFieldToSelected(this.state.name, this.state.value);
+      setLocation("/");
+    };
+    return html`
+      <form onSubmit=${commitAction}>
+        <p>Add Property to Selected Characters</p>
+        <${EditField}
+          label="Name"
+          value=${name}
+          name="name"
+          onInput=${updateAction}
+        />
+        <${EditField}
+          label="Value"
+          value=${value}
+          name="value"
+          onInput=${updateAction}
+        />
+        <button class="button">Done</button>
+      </form>
+    `;
+  }
+}
+
+export const SectionTopic = connect(["npcs"], myActions)(SectionTopic1);

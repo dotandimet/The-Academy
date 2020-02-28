@@ -30,8 +30,14 @@ export let myActions = {
     console.log("going to update the npc list to firebase...");
     return await Promise.all(
       state.npcs.map(npc => {
-        let doc = this.db.collection("characters").doc(npc.name);
-        return doc.set(npc, { merge: true });
+        let doc = firebase
+          .firestore()
+          .collection("characters")
+          .doc(npc.name);
+        // exclude some fields (local client state):
+        let obj = { ...npc };
+        delete obj.selected;
+        return doc.set(obj, { merge: true });
       })
     )
       .then(() => console.log("uploaded all NPCs"))
@@ -76,6 +82,16 @@ export let myActions = {
     }
   },
 
+  async addFieldToSelected(state, field, value) {
+    store.setState({
+      npcs: state.npcs.map(x => {
+        if (x.selected) {
+          x[field] = value;
+        }
+        return x;
+      })
+    });
+  },
   toggleSelect(state, name) {
     return {
       npcs: state.npcs.map(x => {
