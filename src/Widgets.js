@@ -133,10 +133,34 @@ export class InfoPanel extends Component {
 }
 
 export class CastList extends Component {
-  render(props) {
+  constructor(props) {
+    super(props);
+    this.state = { search: "" };
+  }
+  render({ npcs, ...props }, { search }) {
     return html`
       <h2 class="title is-capitalized" style="position: sticky">Cast</h2>
-      <${NPCList} npcs=${props.npcs} ...${props} />
+      <div class="level level-left">
+        <p class="control level-item has-text-centered">
+          <input
+            class="input is-primary"
+            value=${search}
+            onInput=${e => this.setState({ search: e.target.value })}
+            type="text"
+            placeholder="Search"
+          />
+        </p>
+      </div>
+      <${NPCList}
+        npcs=${npcs.filter(
+          npc =>
+            search.length == 0 ||
+            Object.values(npc)
+              .join(" ")
+              .match(search)
+        )}
+        ...${props}
+      />
     `;
   }
 }
@@ -148,7 +172,11 @@ export class NavBar extends Component {
   }
   render(props, { active }) {
     return html`
-      <nav class="navbar" role="navigation" aria-label="main navigation">
+      <nav
+        class="navbar is-fixed-top"
+        role="navigation"
+        aria-label="main navigation"
+      >
         <div class="navbar-brand">
           <a class="navbar-item" href="/">
             The Academy
