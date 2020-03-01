@@ -46,16 +46,6 @@ class App extends Component {
       <//>
       <section class="section">
         <div class="container">
-          <h1 class="title">
-            The Academy
-          </h1>
-          <p class="subtitle">
-            Welcome to the premiere educational faucility for the Gifted
-          </p>
-        </div>
-      </section>
-      <section class="section">
-        <div class="container">
         <${Switch}>
         <${Route} path="/">
               <${CastList}
