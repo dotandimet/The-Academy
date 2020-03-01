@@ -157,7 +157,8 @@ export class CastList extends Component {
             search.length == 0 ||
             Object.values(npc)
               .join(" ")
-              .match(search)
+              .toLowerCase()
+              .match(search.toLowerCase())
         )}
         ...${props}
       />
