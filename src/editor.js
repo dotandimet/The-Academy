@@ -359,3 +359,50 @@ class SectionTopic1 extends Component {
 }
 
 export const SectionTopic = connect(["npcs"], myActions)(SectionTopic1);
+
+class Topic1 extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      section: "",
+      topic: "",
+      content: "",
+      tagged_characters: "",
+      created_by: "",
+      created_at: "",
+      last_edited_at: "",
+      last_edited_by: "",
+      secret: false
+    };
+  }
+  render({}, { name, value }) {
+    const updateAction = e =>
+      this.setState({ [e.target.name]: e.target.value });
+    const [loc, setLocation] = useLocation();
+    const commitAction = e => {
+      e.preventDefault();
+      this.props.addFieldToSelected(this.state.name, this.state.value);
+      setLocation("/");
+    };
+    return html`
+      <form onSubmit=${commitAction}>
+        <p>Create Topic</p>
+        <${EditField}
+          label="Section"
+          value=${section}
+          name="name"
+          onInput=${updateAction}
+        />
+        <${EditField}
+          label="Value"
+          value=${value}
+          name="value"
+          onInput=${updateAction}
+        />
+        <button class="button">Done</button>
+      </form>
+    `;
+  }
+}
+
+export const Topic = connect(["npcs"], myActions)(Topic1);
