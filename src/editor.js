@@ -141,7 +141,7 @@ class EditForm1 extends Component {
   }
 
   render(
-    { commitEdit, uploadImage, img },
+    { commitEdit, uploadImage, img, deleteCharacter, ...props },
     { name, bio, powers, grade, division, type, image, affiliation, role }
   ) {
     if (img !== null && img !== image) {
@@ -155,7 +155,15 @@ class EditForm1 extends Component {
     const [loc, setLocation] = useLocation();
     const commitAction = e => {
       e.preventDefault();
-      commitEdit(this.state);
+      if (name !== props.name) {
+        console.log("changing name from ", props.name, " to ", name, "...");
+      }
+      commitEdit(this.state, props.name);
+      setLocation("/");
+    };
+    const deleteAction = e => {
+      e.preventDefault();
+      deleteCharacter(props.name);
       setLocation("/");
     };
     const label_func = (name, val) => html`
@@ -220,6 +228,7 @@ class EditForm1 extends Component {
           onInput=${updateAction}
         />
         <button class="button">Done</button>
+        <button class="button is-danger" onClick=${deleteAction}>Delete</button>
       </form>
     `;
   }

@@ -52,10 +52,10 @@ export let myActions = {
     store.setState({ names });
   },
 
-  async commitEdit(state, edit) {
+  async commitEdit(state, edit, old_name) {
     try {
       // console.log(edit);
-      let editIndex = state.npcs.findIndex(npc => npc.name === edit.name);
+      let editIndex = state.npcs.findIndex(npc => npc.name === old_name);
       let editing = editIndex > -1 ? state.npcs[editIndex] : {};
       let edited = { ...editing, ...edit };
       // clean up undefined fields:
@@ -76,12 +76,35 @@ export let myActions = {
         .doc(edited.name);
       await doc.set(edited, { merge: true });
       console.log("updated ", edited.name, " in the cloud");
+      if (old_name !== edited.name) {
+        await firebase
+          .firestore()
+          .collection("characters")
+          .doc(old_name)
+          .delete();
+        console.log("removed old entry ", old_name);
+      }
       store.setState({ npcs: new_list });
     } catch (e) {
       console.log("Errors updating ", edit.name, ": ", e);
     }
   },
-
+  async deleteCharacter(state, old_name) {
+    try {
+      const new_list = state.npcs
+        .filter(npc => npc.name !== old_name)
+        .map(x => x);
+      await firebase
+        .firestore()
+        .collection("characters")
+        .doc(old_name)
+        .delete();
+      console.log("removed old entry ", old_name);
+      store.setState({ npcs: new_list });
+    } catch (e) {
+      console.log("Errors removing ", old_name, ": ", e);
+    }
+  },
   async addFieldToSelected(state, field, value) {
     store.setState({
       npcs: state.npcs.map(x => {
