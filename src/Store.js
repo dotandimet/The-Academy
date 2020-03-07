@@ -24,6 +24,15 @@ export let myActions = {
     const characters = [];
     querySnapShot.forEach(doc => characters.push(doc.data()));
     // store.setState({ npcs: characters });
+    characters.sort((a, b) => {
+      return (
+        new Date(b["last-edited-at"] || 0).getTime() -
+          new Date(a["last-edited-at"] || 0).getTime() ||
+        (a["affiliation"] || "").localeCompare(b["affiliation"] || "") ||
+        (a["role"] || "").localeCompare(b["role"] || "") ||
+        (a["name"] || "").localeCompare(b["name"] || "")
+      );
+    });
     return { npcs: characters };
   },
   async updateFireStore(state) {
