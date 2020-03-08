@@ -375,7 +375,20 @@ class Topic1 extends Component {
       secret: false
     };
   }
-  render({}, { name, value }) {
+  render(
+    {},
+    {
+      section,
+      topic,
+      content,
+      tagged_characters,
+      created_by,
+      created_at,
+      last_edited_by,
+      last_edited_at,
+      secret
+    }
+  ) {
     const updateAction = e =>
       this.setState({ [e.target.name]: e.target.value });
     const [loc, setLocation] = useLocation();
@@ -394,9 +407,16 @@ class Topic1 extends Component {
           onInput=${updateAction}
         />
         <${EditField}
-          label="Value"
-          value=${value}
-          name="value"
+          label="Topic"
+          value=${topic}
+          name="topic"
+          onInput=${updateAction}
+        />
+        <${EditField}
+          label="Content"
+          value=${content}
+          name="content"
+          big="true"
           onInput=${updateAction}
         />
         <button class="button">Done</button>

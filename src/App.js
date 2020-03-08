@@ -1,6 +1,6 @@
 import { Component, html } from "./defs.js";
 
-import { EditForm, NamePicker, SectionTopic } from "./editor.js";
+import { EditForm, NamePicker, SectionTopic, Topic } from "./editor.js";
 import { SignOnWidget } from "./SignOnWidget.js";
 import { CastList, InfoPanel, NavBar } from "./Widgets.js";
 import { Link, Switch, Route } from "/web_modules/wouter-preact.js";
@@ -80,6 +80,7 @@ class App extends Component {
             }}
           <//>
          <${Route} path="/selection/edit" component=${SectionTopic} />
+         <${Route} path="/about" component=${Topic} />
         </Switch>
         </div>
       </section>
