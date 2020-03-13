@@ -46,6 +46,8 @@ class App extends Component {
       <//>
       <section class="section">
         <div class="container">
+        <div class="columns">
+        <div class="column is-10 is-offset-1">
         <${Switch}>
         <${Route} path="/">
               <${CastList}
@@ -82,6 +84,8 @@ class App extends Component {
          <${Route} path="/selection/edit" component=${SectionTopic} />
          <${Route} path="/about" component=${Topic} />
         </Switch>
+        </div>
+        </div>
         </div>
       </section>
     `;
