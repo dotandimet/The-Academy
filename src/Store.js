@@ -141,7 +141,9 @@ export let myActions = {
       })
     };
   },
-  async updateTopic(state, {
+  async updateTopic(
+    state,
+    {
       section,
       topic,
       content,
@@ -151,9 +153,8 @@ export let myActions = {
       last_edited_by,
       last_edited_at,
       secret
-    }) {
-    
-  },
+    }
+  ) {},
   async setupAuthentication(state) {
     try {
       const result = await firebase.auth().getRedirectResult();

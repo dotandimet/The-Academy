@@ -372,7 +372,7 @@ class Topic1 extends Component {
       created_at: "",
       last_edited_at: "",
       last_edited_by: "",
-      secret: 'public'
+      secret: "public"
     };
   }
   render(
@@ -422,9 +422,9 @@ class Topic1 extends Component {
         />
         <${RadioField}
           name="secret"
-          values=${['secret', 'public']}
+          values=${["secret", "public"]}
           value=${secret}
-          labeler=${(name, v) => (v == 'secret') ? 'GMs Only' : 'Public'}
+          labeler=${(name, v) => (v == "secret" ? "GMs Only" : "Public")}
           onClick=${updateAction}
         />
 
