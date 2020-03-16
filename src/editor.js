@@ -372,7 +372,7 @@ class Topic1 extends Component {
       created_at: "",
       last_edited_at: "",
       last_edited_by: "",
-      secret: false
+      secret: 'public'
     };
   }
   render(
@@ -380,6 +380,7 @@ class Topic1 extends Component {
     {
       section,
       topic,
+
       content,
       tagged_characters,
       created_by,
@@ -394,8 +395,8 @@ class Topic1 extends Component {
     const [loc, setLocation] = useLocation();
     const commitAction = e => {
       e.preventDefault();
-      this.props.addFieldToSelected(this.state.name, this.state.value);
-      setLocation("/");
+      this.props.updateTopic(this.state);
+      setLocation(`/about/${this.state.section}/${this.state.topic}`);
     };
     return html`
       <form onSubmit=${commitAction}>
@@ -403,7 +404,7 @@ class Topic1 extends Component {
         <${EditField}
           label="Section"
           value=${section}
-          name="name"
+          name="section"
           onInput=${updateAction}
         />
         <${EditField}
@@ -419,6 +420,14 @@ class Topic1 extends Component {
           big="true"
           onInput=${updateAction}
         />
+        <${RadioField}
+          name="secret"
+          values=${['secret', 'public']}
+          value=${secret}
+          labeler=${(name, v) => (v == 'secret') ? 'GMs Only' : 'Public'}
+          onClick=${updateAction}
+        />
+
         <button class="button">Done</button>
       </form>
     `;
