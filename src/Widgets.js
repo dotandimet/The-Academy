@@ -174,7 +174,7 @@ export class NavBar extends Component {
   render(props, { active }) {
     return html`
       <nav
-        class="navbar is-fixed-top"
+        class="navbar is-fixed-bottom"
         role="navigation"
         aria-label="main navigation"
       >
