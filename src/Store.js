@@ -1,7 +1,7 @@
 import { createStore } from "/web_modules/unistore/full/preact.es.js";
 
 export let store = createStore({
-  npcs: [],
+  npcs: localStorage.getItem('npcs') || [],
   user: null,
   names: null,
   img: null
@@ -33,7 +33,7 @@ export let myActions = {
         (a["name"] || "").localeCompare(b["name"] || "")
       );
     });
-    return { npcs: characters };
+    return { 'npcs': characters };
   },
   async updateFireStore(state) {
     console.log("going to update the npc list to firebase...");
@@ -141,9 +141,7 @@ export let myActions = {
       })
     };
   },
-  async updateTopic(
-    state,
-    {
+  async updateTopic(state, {
       section,
       topic,
       content,
@@ -153,8 +151,19 @@ export let myActions = {
       last_edited_by,
       last_edited_at,
       secret
-    }
-  ) {},
+    }) {
+    created_by = (created_by) ? created_by : state.user
+    created_at = (created_at) ? created_at : new Date()
+    last_edited_by = state.user
+    last_edited_at = new Date();
+    secret = (secret === 'secret') ? true : false;
+    let doc = firebase.firestore.collection('topics').doc(topic);
+    await doc.set({section, topic, content, tagged_characters
+                   , created_by, created_at, last_edited_by, last_edited_at,
+                   secret }, { merge: true });
+    return state;
+  },
+
   async setupAuthentication(state) {
     try {
       const result = await firebase.auth().getRedirectResult();

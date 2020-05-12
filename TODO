@@ -1,6 +1,5 @@
-[] use local storage or similar to save selected list, other app data
+[] use local storage or similar to save selected list, other app data - firebase.firestore().enablePersistence()?
 [] use onSnapShot to listen for server changes https://firebase.google.com/docs/firestore/manage-data/enable-offline
 [] wiki pages with topic hierarchy linked to sets of characters
 [] sessions as wiki topic
 [] page redesign, welcome / login page, hero with image, link to map
-
