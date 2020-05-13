@@ -11,12 +11,12 @@
   "author": "dotandimet@gmail.com",
   "license": "Artistic-2.0",
   "dependencies": {
-    "@fortawesome/fontawesome-free": "^5.12.1",
+    "@fortawesome/fontawesome-free": "^5.13.0",
     "animate.css": "^3.7.2",
-    "bulma": "^0.8.0",
-    "firebase": "^7.11.0",
-    "htm": "^3.0.3",
-    "preact": "^10.3.4",
+    "bulma": "^0.8.2",
+    "firebase": "^7.14.3",
+    "htm": "^3.0.4",
+    "preact": "^10.4.1",
     "wouter-preact": "^2.4.0"
   },
   "devDependencies": {
