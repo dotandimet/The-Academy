@@ -201,7 +201,7 @@ export class NavBar extends Component {
           id="navbarBasicExample"
           class="navbar-menu ${active ? "is-active" : ""}"
         >
-          <div class="navbar-start">
+          <div class="navbar-start" onClick=${ e => this.setState({ active: !active }) }>
             ${toChildArray(this.props.children).map(
               x => html`
                 ${x}
