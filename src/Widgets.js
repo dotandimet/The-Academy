@@ -1,5 +1,5 @@
 import { Component, html, toChildArray } from "./defs.js";
-import { Link } from "/web_modules/wouter-preact.js";
+import { Link, useLocation } from "/web_modules/wouter-preact.js";
 import { svg_icons } from "./icons.js";
 
 const icons = svg_icons("1.25rem", "#363636");
@@ -28,11 +28,13 @@ class Box extends Component {
           <article class="media">
             <div class="media-left">
               <figure class="image is-128x128" style="overflow: hidden">
+              <${Link} href="/zoom/${name}">
                 <img
                   src="${path_prefix}${image}"
                   alt="Image"
                   class="is-rounded"
                 />
+              <//>
               </figure>
             </div>
             <div class="media-content">
@@ -102,6 +104,33 @@ class Box extends Component {
     `;
   }
 }
+
+export class Zoom extends Component {
+  render({
+    name = "Todd",
+    image
+  }) {
+    const path_prefix =
+      (image || "").startsWith("/") || (image || "").startsWith("http")
+        ? ""
+        : "/";
+    const [location, setLocation] = useLocation();
+    return html`
+      <div onClick=${ (e) => setLocation("/") }
+     style="position: fixed; top: 0; left: 0; margin: 0; padding: 0;
+            height: 100%; width: 100%;">
+      <div style="width: 100%; height: 100%;
+            background: url(${path_prefix}${image}) no-repeat top left ;
+            background-position: 0;
+            background-size: cover;"
+     >
+                <h2 style="color: silver; margin: auto;" class="title is-2">${name}</h2>
+            </div>
+      </div>
+    `;
+  }
+}
+
 
 export class NPCList extends Component {
   render({ npcs, ...props }) {
