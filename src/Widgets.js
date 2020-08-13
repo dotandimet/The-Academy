@@ -1,10 +1,17 @@
 import { Component, html, toChildArray } from "./defs.js";
 import { Link, useLocation } from "/web_modules/wouter-preact.js";
 import { svg_icons } from "./icons.js";
+import { useState } from "/web_modules/preact/hooks.js";
 
 const icons = svg_icons("1.25rem", "#363636");
 
 class Box extends Component {
+
+  constructor(props) {
+    super(props);
+    this.state = { zoom: false };
+  }
+
   render({
     name = "Todd",
     grade = "red",
@@ -17,24 +24,25 @@ class Box extends Component {
     affiliation,
     role,
     toggleSelect
-  }) {
+  }, state ) {
     const path_prefix =
       (image || "").startsWith("/") || (image || "").startsWith("http")
         ? ""
         : "/";
+    const zoom = state.zoom;
+    const toggleZoom = () => this.setState({ zoom: !this.state.zoom });
     return html`
       <div class="tile is-parent is-4">
         <div class="tile is-child box animated fadeInDown" key=${name}>
           <article class="media">
             <div class="media-left">
               <figure class="image is-128x128" style="overflow: hidden">
-              <${Link} href="/zoom/${name}">
                 <img
                   src="${path_prefix}${image}"
                   alt="Image"
                   class="is-rounded"
+                  onClick=${toggleZoom}
                 />
-              <//>
               </figure>
             </div>
             <div class="media-content">
@@ -101,6 +109,7 @@ class Box extends Component {
           </article>
         </div>
       </div>
+      ${zoom ? html`<${Zoom} name=${name} image=${image} toggle=${toggleZoom} />` : '' }
     `;
   }
 }
@@ -108,23 +117,27 @@ class Box extends Component {
 export class Zoom extends Component {
   render({
     name = "Todd",
-    image
+    image,
+    toggle
   }) {
     const path_prefix =
       (image || "").startsWith("/") || (image || "").startsWith("http")
         ? ""
         : "/";
-    const [location, setLocation] = useLocation();
     return html`
-      <div onClick=${ (e) => setLocation("/") }
+      <div onClick=${toggle}
      style="position: fixed; top: 0; left: 0; margin: 0; padding: 0;
-            height: 100%; width: 100%;">
-      <div style="width: 100%; height: 100%;
-            background: url(${path_prefix}${image}) no-repeat top left ;
-            background-position: 0;
-            background-size: cover;"
+            height: 100%; width: 100%; z-index: 10">
+      <div style="width: 100%; min-width: 100%; height: auto; min-height: 100%;
+            background: url(${path_prefix}${image}) no-repeat;
+            background-color: #000;
+            background-position: 0 0;
+            background-size: contain;"
      >
-                <h2 style="color: silver; margin: auto;" class="title is-2">${name}</h2>
+                <h2 style="color: silver; margin: auto;
+                    position: relative; top: 400px; left: 40%;
+                    text-shadow: 1px 0 10px #FC0, 2px 1px 3px #CCC;"
+                    class="title is-2">${name}</h2>
             </div>
       </div>
     `;

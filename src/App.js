@@ -2,7 +2,7 @@ import { Component, html } from "./defs.js";
 
 import { EditForm, NamePicker, SectionTopic, Topic } from "./editor.js";
 import { SignOnWidget } from "./SignOnWidget.js";
-import { CastList, InfoPanel, NavBar, Zoom } from "./Widgets.js";
+import { CastList, InfoPanel, NavBar } from "./Widgets.js";
 import { Link, Switch, Route } from "/web_modules/wouter-preact.js";
 import { store, myActions } from "./Store.js";
 import { Provider, connect } from "/web_modules/unistore/full/preact.es.js";
@@ -68,15 +68,6 @@ class App extends Component {
                 />
               `;
             }}
-          <//>
-          <${Route} path="/zoom/:name">
-          ${ params => {
-              const name = decodeURIComponent(params.name);
-              const npc = npcs.find(npc => npc.name === name) || { name };
-              return html`
-              <${Zoom} ...${npc} />
-              `;
-            } }
           <//>
           <${Route} path="/edit">
           <${NamePicker} />
