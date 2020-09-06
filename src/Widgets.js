@@ -129,13 +129,15 @@ export class Zoom extends Component {
      style="position: fixed; top: 0; left: 0; margin: 0; padding: 0;
             height: 100%; width: 100%; z-index: 10">
       <div style="width: 100%; min-width: 100%; height: auto; min-height: 100%;
+            display: flex;
+            align-items: flex-end;
+            justify-content: flex-end;
             background: url(${path_prefix}${image}) no-repeat;
             background-color: #000;
             background-position: 0 0;
             background-size: contain;"
      >
-                <h2 style="color: silver; margin: auto;
-                    position: relative; top: 400px; left: 40%;
+                <h2 style="color: silver; padding: 10px; margin-bottom: 4rem;
                     text-shadow: 1px 0 10px #FC0, 2px 1px 3px #CCC;"
                     class="title is-2">${name}</h2>
             </div>
