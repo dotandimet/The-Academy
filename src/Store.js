@@ -1,4 +1,8 @@
-import { createStore } from "/web_modules/unistore/full/preact.es.js";
+import { createStore } from "unistore";
+import { auth, db, storage } from "./firebase.js";
+import { getRedirectResult, onAuthStateChanged } from "firebase/auth";
+import { collection, getDocs, setDoc, doc } from "firebase/firestore";
+import { ref } from "firebase/storage";
 
 export let store = createStore({
   npcs: localStorage.getItem('npcs') || [],
@@ -17,10 +21,7 @@ export let myActions = {
   },
   async loadFirestoreData(state, force = false) {
     if (state.npcs.length > 0 && !force) return state;
-    let querySnapShot = await firebase
-      .firestore()
-      .collection("characters")
-      .get({ source: "server" });
+    const querySnapShot = await getDocs(collection(db, "characters"));
     const characters = [];
     querySnapShot.forEach(doc => characters.push(doc.data()));
     // store.setState({ npcs: characters });
@@ -37,16 +38,14 @@ export let myActions = {
   },
   async updateFireStore(state) {
     console.log("going to update the npc list to firebase...");
+    const charactersRef = collection(db, "characters");
     return await Promise.all(
       state.npcs.map(npc => {
-        let doc = firebase
-          .firestore()
-          .collection("characters")
-          .doc(npc.name);
+        const docRef = doc(charactersRef, npc.name);
         // exclude some fields (local client state):
         let obj = { ...npc };
         delete obj.selected;
-        return doc.set(obj, { merge: true });
+        return setDoc(docRef, obj, { merge: true });
       })
     )
       .then(() => console.log("uploaded all NPCs"))
@@ -79,18 +78,11 @@ export let myActions = {
       const new_list = state.npcs.map(x => x); //copy the array
       if (editIndex > -1) new_list.splice(editIndex, 1, edited);
       else new_list.push(edited);
-      let doc = firebase
-        .firestore()
-        .collection("characters")
-        .doc(edited.name);
-      await doc.set(edited, { merge: true });
+      let docRef = doc(collection(db, "characters"), edited.name);
+      await setDoc(docRef, edited, { merge: true });
       console.log("updated ", edited.name, " in the cloud");
       if (old_name !== edited.name) {
-        await firebase
-          .firestore()
-          .collection("characters")
-          .doc(old_name)
-          .delete();
+        await deleteDoc(doc(db, "characters", old_name));
         console.log("removed old entry ", old_name);
       }
       store.setState({ npcs: new_list });
@@ -103,11 +95,7 @@ export let myActions = {
       const new_list = state.npcs
         .filter(npc => npc.name !== old_name)
         .map(x => x);
-      await firebase
-        .firestore()
-        .collection("characters")
-        .doc(old_name)
-        .delete();
+        await deleteDoc(doc(db, "characters", old_name));
       console.log("removed old entry ", old_name);
       store.setState({ npcs: new_list });
     } catch (e) {
@@ -157,8 +145,8 @@ export let myActions = {
     last_edited_by = state.user
     last_edited_at = new Date();
     secret = (secret === 'secret') ? true : false;
-    let doc = firebase.firestore.collection('topics').doc(topic);
-    await doc.set({section, topic, content, tagged_characters
+    let docRef = doc(collection(db, 'topics'), topic);
+    await setDoc(docRef, {section, topic, content, tagged_characters
                    , created_by, created_at, last_edited_by, last_edited_at,
                    secret }, { merge: true });
     return state;
@@ -166,7 +154,7 @@ export let myActions = {
 
   async setupAuthentication(state) {
     try {
-      const result = await firebase.auth().getRedirectResult();
+      const result = await getRedirectResult(auth);
       if (result) {
         if (result.credential) {
           // This gives you a Google Access Token. You can use it to access the Google API.
@@ -204,7 +192,7 @@ export let myActions = {
     }
 
     // Listening for auth state changes.
-    firebase.auth().onAuthStateChanged(user => {
+    onAuthStateChanged(auth, (user) => {
       if (user) {
         // User is signed in.
         var displayName = user.displayName;
@@ -224,9 +212,7 @@ export let myActions = {
 
   async uploadImage(state, file) {
     try {
-      const storage = firebase.storage();
-      const storageRef = storage.ref();
-      const imgRef = storageRef.child(`images/${file.name}`);
+      const imgRef = ref(storage, `images/${file.name}`);
       await imgRef.put(file);
       const url = await imgRef.getDownloadURL();
       store.setState({ img: url });

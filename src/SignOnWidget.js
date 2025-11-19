@@ -1,14 +1,16 @@
 import { Component, html } from "./defs.js";
+import { auth } from "./firebase.js";
+import { signOut, signInWithRedirect, GoogleAuthProvider } from "firebase/auth";
 
 export class SignOnWidget extends Component {
-  toggleSignIn() {
-    if (!firebase.auth().currentUser) {
+  async toggleSignIn() {
+    if (!auth.currentUser) {
       // [START createprovider]
-      var provider = new firebase.auth.GoogleAuthProvider();
+      const provider = new GoogleAuthProvider();
       // provider.addScope('https://www.googleapis.com/auth/plus.login');
-      firebase.auth().signInWithRedirect(provider);
+        await signInWithRedirect(auth, provider);
     } else {
-      firebase.auth().signOut();
+        await signOut(auth);
     }
   }
 

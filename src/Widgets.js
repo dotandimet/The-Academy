@@ -1,7 +1,7 @@
 import { Component, html, toChildArray } from "./defs.js";
-import { Link, useLocation } from "/web_modules/wouter-preact.js";
+import { Link, useLocation } from "wouter-preact";
 import { svg_icons } from "./icons.js";
-import { useState } from "/web_modules/preact/hooks.js";
+import { useState } from "preact/hooks";
 
 const icons = svg_icons("1.25rem", "#363636");
 

@@ -4,11 +4,11 @@ import { svg_icons } from "./icons.js";
 
 const icons = svg_icons("0.75rem", "#363636");
 
-import { connect } from "/web_modules/unistore/full/preact.es.js";
+import { connect } from "unistore";
 
 import { myActions } from "./Store.js";
 
-import { useLocation } from "/web_modules/wouter-preact.js";
+import { useLocation } from "wouter-preact";
 
 class RadioField extends Component {
   render({ name, value, values, labeler, ...props }) {

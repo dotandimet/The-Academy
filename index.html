@@ -12,16 +12,21 @@
 
 <body>
   <div id="app"></div>
-<!-- The core Firebase JS SDK is always required and must be listed first -->
-<script src="https://www.gstatic.com/firebasejs/7.8.1/firebase-app.js"></script>
-
-<!-- TODO: Add SDKs for Firebase products that you want to use
-     https://firebase.google.com/docs/web/setup#available-libraries -->
- <!-- Add Firebase products that you want to use -->
-  <script src="https://www.gstatic.com/firebasejs/7.9.1/firebase-auth.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/7.9.1/firebase-firestore.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/7.9.1/firebase-storage.js"></script>
-
+    <script type="importmap">
+      {
+        "imports": {
+          "firebase/app": "https://www.gstatic.com/firebasejs/12.6.0/firebase-app.js",
+          "firebase/auth": "https://www.gstatic.com/firebasejs/12.6.0/firebase-auth.js",
+          "firebase/storage": "https://www.gstatic.com/firebasejs/12.6.0/firebase-storage.js",
+          "firebase/firestore": "https://www.gstatic.com/firebasejs/12.6.0/firebase-firestore.js",
+          "preact": "https://unpkg.com/preact@10.27.2/dist/preact.module.js",
+          "preact/hooks": "https://unpkg.com/preact@10.27.2/hooks/dist/hooks.module.js",
+          "htm": "https://unpkg.com/htm@3.1.1/dist/htm.module.js",
+          "wouter-preact": "https://unpkg.com/wouter-preact@2.12.2/index.js",
+          "unistore": "https://unpkg.com/unistore@3.5.2/full/preact.es.js"
+        }
+      }
+    </script>
   <script src="/src/index.js" type="module">
   </script>
 </body>

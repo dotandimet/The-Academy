@@ -3,9 +3,9 @@ import { Component, html } from "./defs.js";
 import { EditForm, NamePicker, SectionTopic, Topic } from "./editor.js";
 import { SignOnWidget } from "./SignOnWidget.js";
 import { CastList, InfoPanel, NavBar } from "./Widgets.js";
-import { Link, Switch, Route } from "/web_modules/wouter-preact.js";
+import { Link, Switch, Route } from "wouter-preact";
 import { store, myActions } from "./Store.js";
-import { Provider, connect } from "/web_modules/unistore/full/preact.es.js";
+import { Provider, connect } from "unistore";
 
 class App extends Component {
   componentDidMount() {

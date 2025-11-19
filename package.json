@@ -11,16 +11,16 @@
   "author": "dotandimet@gmail.com",
   "license": "Artistic-2.0",
   "dependencies": {
-    "@fortawesome/fontawesome-free": "^5.13.0",
+    "@fortawesome/fontawesome-free": "^5.15.4",
     "animate.css": "^3.7.2",
     "bulma": "^0.8.2",
-    "firebase": "^7.14.3",
-    "htm": "^3.0.4",
-    "preact": "^10.4.1",
-    "wouter-preact": "^2.4.0"
+    "firebase": "^12.6.0",
+    "htm": "^3.1.1",
+    "preact": "^10.27.2",
+    "wouter-preact": "^2.12.2"
   },
   "devDependencies": {
     "prettier": "1.19.1",
-    "serve": "^11.3.0"
+    "serve": "^14.2.5"
   }
 }
