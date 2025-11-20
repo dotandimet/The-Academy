@@ -21,8 +21,11 @@ export let myActions = {
   },
   async loadFirestoreData(state, force = false) {
     if (state.npcs.length > 0 && !force) return state;
-    const querySnapShot = await getDocs(collection(db, "characters"));
+    const querySnapShot = await getDocs(collection(db, "characters"))
+                                .then((qs) => { console.log("Loaded all NPCs"); return qs })
+                                .catch(e => console.log("Errors loading: ", e));
     const characters = [];
+    if (querySnapShot === undefined) return { 'npcs': characters };
     querySnapShot.forEach(doc => characters.push(doc.data()));
     // store.setState({ npcs: characters });
     characters.sort((a, b) => {
