@@ -8,9 +8,11 @@ export class SignOnWidget extends Component {
       // [START createprovider]
       const provider = new GoogleAuthProvider();
       // provider.addScope('https://www.googleapis.com/auth/plus.login');
-        await signInWithRedirect(auth, provider);
+        await signInWithRedirect(auth, provider)
+              .catch((error) => { console.log("Error during sign-in: ", error); });
     } else {
-        await signOut(auth);
+        await signOut(auth)
+              .catch((error) => { console.log("Error during sign-out: ", error); });
     }
   }
 

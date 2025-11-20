@@ -58,7 +58,7 @@ export let myActions = {
   async loadNames(state) {
     let { default: get_names } = await import(
       "https://dotandimet.github.io/npc_names/names.js"
-    );
+    ).catch((e) => console.log("Error loading names module: ", e));
     const names = get_names();
     store.setState({ names });
   },
@@ -82,11 +82,13 @@ export let myActions = {
       if (editIndex > -1) new_list.splice(editIndex, 1, edited);
       else new_list.push(edited);
       let docRef = doc(collection(db, "characters"), edited.name);
-      await setDoc(docRef, edited, { merge: true });
-      console.log("updated ", edited.name, " in the cloud");
+      await setDoc(docRef, edited, { merge: true })
+        .then( () => console.log("updated ", edited.name, " in the cloud") )
+        .catch( e => console.log("Errors updating ", edited.name, ": ", e) );
       if (old_name !== edited.name) {
-        await deleteDoc(doc(db, "characters", old_name));
-        console.log("removed old entry ", old_name);
+        await deleteDoc(doc(db, "characters", old_name))
+          .then( () => console.log("removed old entry ", old_name) )
+          .catch( e => console.log("Errors removing ", old_name, ": ", e) );
       }
       store.setState({ npcs: new_list });
     } catch (e) {
@@ -98,8 +100,9 @@ export let myActions = {
       const new_list = state.npcs
         .filter(npc => npc.name !== old_name)
         .map(x => x);
-        await deleteDoc(doc(db, "characters", old_name));
-      console.log("removed old entry ", old_name);
+        await deleteDoc(doc(db, "characters", old_name))
+          .then( () => console.log("removed old entry ", old_name) )
+          .catch( e => console.log("Errors removing ", old_name, ": ", e) );
       store.setState({ npcs: new_list });
     } catch (e) {
       console.log("Errors removing ", old_name, ": ", e);
@@ -151,13 +154,16 @@ export let myActions = {
     let docRef = doc(collection(db, 'topics'), topic);
     await setDoc(docRef, {section, topic, content, tagged_characters
                    , created_by, created_at, last_edited_by, last_edited_at,
-                   secret }, { merge: true });
+                   secret }, { merge: true })
+          .then( () => console.log("updated topic ", topic, " in the cloud") )
+          .catch( e => console.log("Errors updating topic ", topic, ": ", e) );
     return state;
   },
 
   async setupAuthentication(state) {
     try {
-      const result = await getRedirectResult(auth);
+      const result = await getRedirectResult(auth)
+                      .catch(e => console.log("Error getting redirect result: ", e));
       if (result) {
         if (result.credential) {
           // This gives you a Google Access Token. You can use it to access the Google API.
